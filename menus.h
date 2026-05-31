@@ -2,6 +2,7 @@
 #define MENUS_H
 
 #include <iostream>
+#include <limits>
 using namespace std;
 
 static inline int main_menu(){
@@ -16,6 +17,7 @@ static inline int main_menu(){
     cout<<"7. Exit\n";
     cout<<"Enter option: ";
     cin>>mm_option;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return mm_option;
 }
 

@@ -1,5 +1,7 @@
 #include <iostream>
 #include "menus.h"
+#include "students.h"
+
 using namespace std;
 
 int main(){
@@ -7,11 +9,11 @@ int main(){
     while(1){
         menu_choice = main_menu();
         switch(menu_choice){
-            case 1: cout<<"coming soon!\n";
+            case 1: add_students();
                 break;
             case 2: cout<<"coming soon!\n";
                 break;
-            case 3: cout<<"coming soon!\n";
+            case 3: view_all_students();
                 break;
             case 4: cout<<"coming soon!\n";
                 break;
