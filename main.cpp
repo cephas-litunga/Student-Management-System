@@ -11,7 +11,7 @@ int main(){
         switch(menu_choice){
             case 1: add_students();
                 break;
-            case 2: cout<<"coming soon!\n";
+            case 2: search_students();
                 break;
             case 3: view_all_students();
                 break;
@@ -24,8 +24,8 @@ int main(){
             case 7: cout<<"Exiting\n";
                 return 0;
             default: cout<<"ERROR!\n";
+                break;
         }
     }
-
     return 0;
 }

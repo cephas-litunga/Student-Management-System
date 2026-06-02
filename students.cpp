@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-Students students[100];
+Student students[100];
 int student_count = 0;
 
 void add_students(){
@@ -28,3 +28,21 @@ void view_all_students(){
     }
 }
 
+void search_students(){
+    cout<<"Enter name to search: ";
+    string search_name;
+    getline(cin, search_name);
+    bool found = false;
+    for(int i = 0; i < student_count; i++){
+        if(students[i].name == search_name){
+            cout<<"\nName: "<<students[i].name<<endl;
+            cout<<"Age: "<<students[i].age<<endl;
+            cout<<"Program: "<<students[i].program<<endl;
+            cout<<"_____________________________________\n\n";
+            found = true;
+        }
+    }
+    if(!found){
+        cout<<"Student not found!\n";
+    }
+}
