@@ -15,14 +15,16 @@ int main(){
                 break;
             case 3: view_all_students();
                 break;
-            case 4: cout<<"coming soon!\n";
+            case 4: edit_student_grades();
                 break;
-            case 5: cout<<"coming soon!\n";
+            case 5: edit_student_details();
                 break;
-            case 6: cout<<"coming soon!\n";
+            case 6: view_student_grades();
                 break;
-            case 7: cout<<"Exiting\n";
-                return 0;
+            case 7: delete_student();
+                break;
+            case 8: cout<<"Exiting...\n";
+                break;
             default: cout<<"ERROR!\n";
                 break;
         }
