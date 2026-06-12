@@ -25,6 +25,8 @@ void edit_student_details();
 void view_all_students();
 void view_student_grades();
 void delete_student();
+void save_students();
+void load_students();
 
 
 

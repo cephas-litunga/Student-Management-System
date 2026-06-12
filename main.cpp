@@ -5,7 +5,8 @@
 using namespace std;
 
 int main(){
-    int menu_choice;
+      int menu_choice;
+    load_students();
     while(1){
         menu_choice = main_menu();
         switch(menu_choice){
@@ -23,11 +24,13 @@ int main(){
                 break;
             case 7: delete_student();
                 break;
-            case 8: cout<<"Exiting...\n";
-                break;
+            case 8: {
+                save_students();
+                cout<<"Exiting...\n"; 
+                return 0;
+            }
             default: cout<<"ERROR!\n";
                 break;
         }
     }
-    return 0;
 }

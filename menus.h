@@ -7,7 +7,8 @@ using namespace std;
 
 static inline int main_menu(){
     int mm_option;
-    cout<<"\n============ Student Management System =================\n";
+    system("cls");
+    cout<<"============ Student Management System =================\n";
     cout<<"1. Add Student\n";
     cout<<"2. Search Student\n";
     cout<<"3. View all students\n";

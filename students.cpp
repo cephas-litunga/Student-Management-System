@@ -2,6 +2,7 @@
 #include <limits>
 #include "students.h"
 #include <string>
+#include <fstream>
 using namespace std;
 
 Student students[100];
@@ -10,7 +11,8 @@ int next_student_id = 260000;
 
 // Add a clear input buffer function to handle invalid inputs
 void add_students(){
-    cout<<"\n===== Adding New Student =====\n";
+    system("cls");
+    cout<<"===== Adding New Student =====\n";
     cout<<"Enter Full Name: ";
     getline(cin, students[student_count].name);
     cout<<"Enter Age: ";
@@ -22,10 +24,12 @@ void add_students(){
     student_count++;
     cout<<"Student added successfully!\n";
     cout<<"Student ID: "<<students[student_count - 1].studentID<<endl;
+    system("pause");
 }
 
 void view_all_students(){
 
+    system("cls");
     for(int i = 0; i < student_count; i++){
         cout<<"\nName: "<<students[i].name<<endl;
         cout<<"Age: "<<students[i].age<<endl;
@@ -33,9 +37,11 @@ void view_all_students(){
         cout<<"Student ID: "<<students[i].studentID<<endl;
         cout<<"_____________________________________\n\n";
     }
+    system("pause");
 }
 
 void search_students(){
+    system("cls");
     cout<<"\n===== Search Student =====\n";
     cout<<"Enter ID to search: ";
     int search_id;
@@ -54,9 +60,11 @@ void search_students(){
     if(!found){
         cout<<"Student not found!\n";
     }
+    system("pause");
 }
 
 void edit_student_details(){
+    system("cls");
     if(student_count == 0){
         cout<<"No students found!\n";
         return;
@@ -85,9 +93,11 @@ void edit_student_details(){
     if(!found){
         cout<<"Student not found\n";
     }
+    system("pause");
 }
 
 void delete_student(){
+    system("cls");
     if(student_count == 0){
         cout<<"No students found!\n";
         return;
@@ -112,10 +122,12 @@ void delete_student(){
     if(!found){
         cout<<"Student not found\n";
     }
+    system("pause");
 }
 
 
 void edit_student_grades(){
+    system("cls");
     if(student_count == 0){
         cout<<"No students found!\n";
         return;
@@ -151,14 +163,15 @@ void edit_student_grades(){
     if(!found){
         cout<<"Student not found!\n";
     }
+    system("pause");
 }
 
 void view_student_grades(){
+    system("cls");
     if(student_count == 0){
         cout<<"No students found!\n";
         return;
     }
-    
     int search_id;
     cout<<"Enter student ID to view grades: ";
     cin>>search_id;
@@ -187,5 +200,48 @@ void view_student_grades(){
     
     if(!found){
         cout<<"Student not found!\n";
+    }
+    system("pause");
+}
+
+
+void save_students(){
+    ofstream outFile("students.txt");
+    if(outFile.is_open()){
+        for(int i = 0; i < student_count; i++){
+            outFile<<students[i].studentID<<"|"<<students[i].name<<"|"<<students[i].age<<"|"<<students[i].program;
+            // for(int j = 0; j < 6; j++){
+            //     outFile<<"|"<<students[i].grades[j];
+            // }
+            outFile<<"\n";
+        }
+        outFile.close();
+    } else {
+        cout<<"Error saving students!\n";
+    }
+}
+
+void load_students(){
+    ifstream inFile("students.txt");
+    if(inFile.is_open()){
+        student_count = 0;
+        next_student_id = 260000;
+        string id_str;
+        while(getline(inFile, id_str, '|')){
+            if(student_count >= 100) break;
+            if(!getline(inFile, students[student_count].name, '|')) break;
+            string age_str;
+            if(!getline(inFile, age_str, '|')) break;
+            if(!getline(inFile, students[student_count].program)) break;
+            students[student_count].age = stoi(age_str);
+            students[student_count].studentID = stoi(id_str);
+            if(students[student_count].studentID >= next_student_id){
+                next_student_id = students[student_count].studentID + 1;
+            }
+            student_count++;
+        }
+        inFile.close();
+    } else {
+        cout<<"No saved students found!\n";
     }
 }

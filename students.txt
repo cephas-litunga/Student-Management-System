@@ -1,0 +1,3 @@
+260000|Niza Simbaya|19|CS
+260001|Ethel Banda|20|CS
+260002|Felix Munda|22|GEO
