@@ -30,14 +30,19 @@ void add_students(){
 void view_all_students(){
 
     system("cls");
-    for(int i = 0; i < student_count; i++){
-        cout<<"\nName: "<<students[i].name<<endl;
-        cout<<"Age: "<<students[i].age<<endl;
-        cout<<"Program: "<<students[i].program<<endl;
-        cout<<"Student ID: "<<students[i].studentID<<endl;
-        cout<<"_____________________________________\n\n";
+    if(student_count > 0){
+        for(int i = 0; i < student_count; i++){
+            cout<<"\nName: "<<students[i].name<<endl;
+            cout<<"Age: "<<students[i].age<<endl;
+            cout<<"Program: "<<students[i].program<<endl;
+            cout<<"Student ID: "<<students[i].studentID<<endl;
+            cout<<"_____________________________________\n\n";
+        }
+    }else{
+        cout<<"No students found!\n";
     }
     system("pause");
+
 }
 
 void search_students(){
@@ -58,7 +63,7 @@ void search_students(){
         }
     }
     if(!found){
-        cout<<"Student not found!\n";
+        cout<<"Student "<<search_id<<" not found!\n";
     }
     system("pause");
 }
@@ -67,6 +72,7 @@ void edit_student_details(){
     system("cls");
     if(student_count == 0){
         cout<<"No students found!\n";
+        system("pause");
         return;
     }
     cout<<"\n===== Edit Student Details =====\n";
@@ -91,7 +97,7 @@ void edit_student_details(){
         }
     }
     if(!found){
-        cout<<"Student not found\n";
+        cout<<"Student "<<search_id<<" not found\n";
     }
     system("pause");
 }
@@ -100,6 +106,7 @@ void delete_student(){
     system("cls");
     if(student_count == 0){
         cout<<"No students found!\n";
+        system("pause");
         return;
     }
     cout<<"\n===== Delete Student =====\n";
@@ -120,7 +127,7 @@ void delete_student(){
         }
     }
     if(!found){
-        cout<<"Student not found\n";
+        cout<<"Student "<<search_id<<" not found\n";
     }
     system("pause");
 }
@@ -130,13 +137,13 @@ void edit_student_grades(){
     system("cls");
     if(student_count == 0){
         cout<<"No students found!\n";
+        system("pause");
         return;
     }
     cout<<"\n===== Edit Student Grades =====\n";
     int search_id;
     cout<<"Enter student ID to edit grades: ";
     cin>>search_id;
-    // cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     bool found = false;
     for(int i = 0; i < student_count; i++){
@@ -161,7 +168,7 @@ void edit_student_grades(){
     }
     
     if(!found){
-        cout<<"Student not found!\n";
+        cout<<"Student "<<search_id<<" not found!\n";
     }
     system("pause");
 }
@@ -170,6 +177,7 @@ void view_student_grades(){
     system("cls");
     if(student_count == 0){
         cout<<"No students found!\n";
+        system("pause");
         return;
     }
     int search_id;
@@ -199,7 +207,7 @@ void view_student_grades(){
     }
     
     if(!found){
-        cout<<"Student not found!\n";
+        cout<<"Student "<<search_id<<" not found!\n";
     }
     system("pause");
 }
@@ -210,9 +218,9 @@ void save_students(){
     if(outFile.is_open()){
         for(int i = 0; i < student_count; i++){
             outFile<<students[i].studentID<<"|"<<students[i].name<<"|"<<students[i].age<<"|"<<students[i].program;
-            // for(int j = 0; j < 6; j++){
-            //     outFile<<"|"<<students[i].grades[j];
-            // }
+            for(int j = 0; j < 6; j++){
+                outFile<<"|"<<students[i].grades[j];
+            }
             outFile<<"\n";
         }
         outFile.close();
@@ -232,9 +240,22 @@ void load_students(){
             if(!getline(inFile, students[student_count].name, '|')) break;
             string age_str;
             if(!getline(inFile, age_str, '|')) break;
-            if(!getline(inFile, students[student_count].program)) break;
+            if(!getline(inFile, students[student_count].program, '|')) break;
             students[student_count].age = stoi(age_str);
             students[student_count].studentID = stoi(id_str);
+            
+            // Load the 6 grades
+            for(int j = 0; j < 6; j++){
+                string grade_str;
+                if(j < 5){
+                    if(!getline(inFile, grade_str, '|')) break;
+                } else {
+                    // Last grade - read until newline
+                    if(!getline(inFile, grade_str)) break;
+                }
+                students[student_count].grades[j] = stoi(grade_str);
+            }
+            
             if(students[student_count].studentID >= next_student_id){
                 next_student_id = students[student_count].studentID + 1;
             }

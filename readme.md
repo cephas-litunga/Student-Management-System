@@ -73,6 +73,16 @@ Student Management System/
 * Replace arrays with dynamic data structures
 * Improve error handling
 
+## Planned Features 
+- [x] Student records 
+- [x] Grade Management
+- [x] File persistence
+- [ ] Authentication system
+- [ ] Student accounts
+- [ ] Admin accounts
+- [ ] Role-based priviledges
+- [ ] GUI Application
+
 ## Getting Started
 
 ### Compile
