@@ -50,12 +50,13 @@ void login(){
         }
     }
     else if (option == 2){
-        if(student_login() != -1){
+        int current_student = student_login();
+        if(current_student != -1){
             while(1){
                 int s_option = student_menu();
                 switch (s_option){
-                    case 1: view_grades(); break;
-                    case 2: view_details(); break;
+                    case 1: view_grades(current_student); break;
+                    case 2: view_details(current_student); break;
                     case 3: cout<<"Logging out...\n"; save_students(); system("pause"); return;
                     default: cout<<"Invalid option! Please try again.\n"; system("pause");
                 }
@@ -64,8 +65,7 @@ void login(){
     }
     else if (option == 3) return;
     else cout<<"Invalid option! Please try again.\n";
-        
-    
+          
 }
 
 
@@ -85,6 +85,8 @@ int student_login(){
             system("cls");
             cout<<"===== Student Login =====\n";
             cout<<"Login successful!\n";
+            cout<<"Welcome, "<<students[i].name<<"!\n";
+            system("pause");
             return i;
         }
     }
@@ -92,6 +94,7 @@ int student_login(){
     system("cls");
     cout<<"===== Student Login =====\n";
     cout<<"Invalid student ID or password.\n";
+    system("pause");
     return -1;
 }
     

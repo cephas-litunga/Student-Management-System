@@ -69,7 +69,7 @@ static inline int admin_menu(){
 static inline int student_menu(){
     int sm_option;
     system("cls");
-    cout<<"============ Student Protal Menu =================\n";
+    cout<<"============ Student Portal Menu =================\n";
     cout<<"1. View Grades\n";
     cout<<"2. View Details\n";
     cout<<"3. Logout\n";

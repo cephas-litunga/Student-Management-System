@@ -1,16 +1,22 @@
 #include "globals.h"
 
-void view_details(){
-    cout<<"Student Details:\n";
-    cout<<"Name: "<<students[student_login()].name<<endl;
-    cout<<"Age: "<<students[student_login()].age<<endl;
-    cout<<"Program: "<<students[student_login()].program<<endl;
-    cout<<"Student ID: "<<students[student_login()].studentID<<endl;
+void view_details(int index){
+    system("cls");
+    cout<<"==================== Student Details ====================\n";
+    cout<<"Name: "<<students[index].name<<endl;
+    cout<<"Age: "<<students[index].age<<endl;
+    cout<<"Program: "<<students[index].program<<endl;
+    cout<<"Student ID: "<<students[index].studentID<<endl;
+    system("pause");
 }
 
-void view_grades(){
+void view_grades(int index){
+    system("cls");
+    cout<<"==================== Student Grades ====================\n";
+    string subjects[6] = {"MA110", "LA111", "PH110", "CS120", "CS130", "CS150"};
     cout<<"Student Grades:\n";
     for(int i = 0; i < 6; i++){
-        cout<<"Subject "<<i+1<<": "<<students[student_login()].grades[i]<<endl;
-    }    
+        cout<<subjects[i]<<": "<<students[index].grades[i]<<endl;
+    }
+    system("pause");
 }
