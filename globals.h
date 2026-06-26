@@ -14,20 +14,17 @@ using namespace std;
 
 class Student{
 public:
-    string name;
-    int age;
-    string program;
+    string name, program, email, password;
+    int age, phone_number, year_of_study;
+    int studentID = 260001;
+    char gender;
     float grades[6];  
     Student() {
         for(int i = 0; i < 6; i++) {
             grades[i] = 0.0;
         }
     }
-    int studentID = 260000;
-    string password;
-    string email;
-    int phone_number;
-    int year_of_study;
+    
 };
 
 extern Student students[100];

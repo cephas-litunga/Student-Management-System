@@ -8,6 +8,7 @@ int next_student_id = 260000;
 void add_students(){
     system("cls");
     cout<<"===== Adding New Student =====\n";
+
     cout<<"Enter Full Name: ";
     getline(cin, students[student_count].name);
 
@@ -16,6 +17,9 @@ void add_students(){
 
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+    cout<<"Enter Gender: ";
+    cin>>students[student_count].gender;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout<<"Enter Program: ";
     getline(cin, students[student_count].program);
 
@@ -31,6 +35,9 @@ void add_students(){
     getline(cin, students[student_count].password);
 
     students[student_count].year_of_study = 1; // Default year of study for new students
+    if(student_count == 0){
+        next_student_id = 260001; // Start from 260001 if no students exist
+    }
     students[student_count].studentID = next_student_id++;
     student_count++;
 
@@ -47,6 +54,7 @@ void view_all_students(){
         for(int i = 0; i < student_count; i++){
             cout<<"\nName: "<<students[i].name<<endl;
             cout<<"Age: "<<students[i].age<<endl;
+            cout<<"Gender: "<<students[i].gender<<endl;
             cout<<"Program: "<<students[i].program<<endl;
             cout<<"Student ID: "<<students[i].studentID<<endl;
             cout<<"Email: "<<students[i].email<<endl;
@@ -71,6 +79,7 @@ void search_students(){
         if(students[i].studentID == search_id){
             cout<<"\nName: "<<students[i].name<<endl;
             cout<<"Age: "<<students[i].age<<endl;
+            cout<<"Gender: "<<students[i].gender<<endl;
             cout<<"Program: "<<students[i].program<<endl;
             cout<<"Student ID: "<<students[i].studentID<<endl;
             cout<<"Email: "<<students[i].email<<endl;
@@ -113,7 +122,7 @@ void edit_student_details(){
             cout<<"Enter Phone Number: ";
             cin>>students[i].phone_number;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout<<"Student Edited successfully!\n";
+            cout<<"Student Details updated successfully!\n";
             found = true;
             break;
         }
@@ -213,11 +222,13 @@ void delete_student(){
         system("pause");
         return;
     }
-    cout<<"\n===== Delete Student =====\n";
+    cout<<"===== Delete Student =====\n";
     int search_id;
     bool found = false;
     cout<<"Enter student ID: ";
     cin>>search_id;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     cout<<"Enter admin password to delete student: ";
     getline(cin, password);
     if (password != "admin123")
@@ -228,7 +239,7 @@ void delete_student(){
         cout<<"Password accepted. Proceeding with deletion...\n";
         sleep(1); // Optional: Add a small delay for better user experience
     }
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    // cin.ignore(numeric_limits<streamsize>::max(), '\n');
     for(int i = 0; i < student_count; i++){
         if(search_id == students[i].studentID){
             for(int j = i; j < student_count - 1; j++){
@@ -250,7 +261,10 @@ void save_students(){
     ofstream outFile("students.txt");
     if(outFile.is_open()){
         for(int i = 0; i < student_count; i++){
-            outFile<<students[i].studentID<<"|"<<students[i].password<<"|"<<students[i].name<<"|"<<students[i].age<<"|"<<students[i].program;
+            outFile<<students[i].studentID<<"|"<<students[i].password<<"|"
+            <<students[i].name<<"|"<<students[i].age<<"|"<<students[i].program
+            <<"|"<<students[i].email<<"|"<<students[i].phone_number<<"|"
+            <<students[i].year_of_study<<"|" << students[i].gender;
             for(int j = 0; j < 6; j++){
                 outFile<<"|"<<students[i].grades[j];
             }

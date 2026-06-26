@@ -42,3 +42,29 @@ void change_password(int index){
     cout<<"Password changed successfully!\n";
     system("pause");
 }
+
+void update_info(int index){
+    system("cls");
+    int option;
+    cout<<"==================== Update Student Info ====================\n";
+    cout<<"1. Update Phone number\n";
+    cout<<"2. Update Email\n";
+    cout<<"3. Change password\n";
+    cout<<"Enter option: ";
+    cin>>option;
+    
+    if(option == 1){
+        cout<<"Enter new phone number: ";
+        cin>>students[index].phone_number;
+        cout<<"Phone number updated successfully!\n";
+    } else if(option == 2){
+        cout<<"Enter new email: ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        getline(cin, students[index].email);
+        cout<<"Email updated successfully!\n";
+    } else if(option == 3){
+        change_password(index);
+    } else {
+        cout<<"Invalid option! Please try again.\n";
+    }
+}

@@ -4,4 +4,6 @@
 void view_details(int index);
 void view_grades(int index);
 void change_password(int index);
+void update_info(int index);
+
 #endif

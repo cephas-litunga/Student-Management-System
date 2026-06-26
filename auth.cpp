@@ -57,7 +57,7 @@ void login(){
                 switch (s_option){
                     case 1: view_grades(current_student); break;
                     case 2: view_details(current_student); break;
-                    case 3: change_password(current_student); break;
+                    case 3: update_info(current_student); break;
                     case 4: cout<<"Logging out...\n"; save_students(); system("pause"); return;
                     default: cout<<"Invalid option! Please try again.\n"; system("pause");
                 }
