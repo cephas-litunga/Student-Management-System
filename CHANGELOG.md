@@ -60,7 +60,7 @@ This version follows a milestone-based versioning approach to track its developm
 - Separatin of authentication and student management logic
 
 ---
-## [v.0.5.0] - Student Profiles *(In Progress)*
+## [v.0.5.0] - Student Profiles 
 
 ### Added
 - Student  email address
@@ -68,7 +68,7 @@ This version follows a milestone-based versioning approach to track its developm
 - Year of student (defaults to Year 1)
 - Student password change functionality
 
-### In Progress
+### Improved
 - Student profile management
 - Student profile editing
 - Improved account management
