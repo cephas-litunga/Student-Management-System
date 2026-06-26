@@ -17,7 +17,7 @@ public:
     string name;
     int age;
     string program;
-    float grades[6];  // Array to store grades for 6 subjects
+    float grades[6];  
     Student() {
         for(int i = 0; i < 6; i++) {
             grades[i] = 0.0;
@@ -25,6 +25,9 @@ public:
     }
     int studentID = 260000;
     string password;
+    string email;
+    int phone_number;
+    int year_of_study;
 };
 
 extern Student students[100];

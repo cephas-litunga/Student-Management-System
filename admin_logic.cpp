@@ -10,14 +10,27 @@ void add_students(){
     cout<<"===== Adding New Student =====\n";
     cout<<"Enter Full Name: ";
     getline(cin, students[student_count].name);
+
     cout<<"Enter Age: ";
     cin>>students[student_count].age;
+
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     cout<<"Enter Program: ";
     getline(cin, students[student_count].program);
+
+    cout<<"Enter Email: ";
+    getline(cin, students[student_count].email);
+
+    cout<<"Enter Phone Number: ";
+    cin>>students[student_count].phone_number;
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     cout<<"Create Student Password: ";
     getline(cin, students[student_count].password);
 
+    students[student_count].year_of_study = 1; // Default year of study for new students
     students[student_count].studentID = next_student_id++;
     student_count++;
 
@@ -36,6 +49,8 @@ void view_all_students(){
             cout<<"Age: "<<students[i].age<<endl;
             cout<<"Program: "<<students[i].program<<endl;
             cout<<"Student ID: "<<students[i].studentID<<endl;
+            cout<<"Email: "<<students[i].email<<endl;
+            cout<<"Phone Number: "<<students[i].phone_number<<endl;
             cout<<"_____________________________________\n\n";
         }
     }else{
@@ -58,6 +73,8 @@ void search_students(){
             cout<<"Age: "<<students[i].age<<endl;
             cout<<"Program: "<<students[i].program<<endl;
             cout<<"Student ID: "<<students[i].studentID<<endl;
+            cout<<"Email: "<<students[i].email<<endl;
+            cout<<"Phone Number: "<<students[i].phone_number<<endl;
             cout<<"_____________________________________\n\n";
             found = true;
         }
@@ -91,6 +108,11 @@ void edit_student_details(){
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout<<"Enter Program: ";
             getline(cin, students[i].program);
+            cout<<"Enter Email: ";
+            getline(cin, students[i].email);
+            cout<<"Enter Phone Number: ";
+            cin>>students[i].phone_number;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout<<"Student Edited successfully!\n";
             found = true;
             break;

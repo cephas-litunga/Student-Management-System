@@ -3,5 +3,5 @@
 
 void view_details(int index);
 void view_grades(int index);
-
+void change_password(int index);
 #endif

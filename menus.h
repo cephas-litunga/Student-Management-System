@@ -72,7 +72,8 @@ static inline int student_menu(){
     cout<<"============ Student Portal Menu =================\n";
     cout<<"1. View Grades\n";
     cout<<"2. View Details\n";
-    cout<<"3. Logout\n";
+    cout<<"3. Change Password\n";
+    cout<<"4. Logout\n";
     cout<<"Enter option: ";
     cin>>sm_option;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');

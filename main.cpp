@@ -1,5 +1,6 @@
 #include "globals.h"
 
+// compile commmand: g++ main.cpp auth.cpp admin_logic.cpp students.cpp -o main
 
 using namespace std;
 
