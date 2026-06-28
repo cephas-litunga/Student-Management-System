@@ -2,17 +2,42 @@
 
 A console-based Student Management System built in C++ as a personal project to strengthen my understanding of software development, program structure, and problem-solving.
 
-## Features
+The project started as a simple CRUD application and is gradually evolving into a university-style Student Information System with authentication, role-based access, persistent storage, and student self-service features.
 
-* Add new student records
-* Generate unique student IDs automatically
-* Search students by ID
-* View all student records
-* Edit student details
-* Delete student records
-* Record grades for multiple subjects
-* View student grades and averages
-* Input validation for user entries
+---
+
+## Features
+### Authentication
+
+- Admin login
+- Student login
+-Role-based access control
+- Password management
+- Persistent account storage
+
+### Student Management
+- Register students
+- Search students by Student ID
+- View all students
+- Edit student details
+- Delete student records
+- Automatically generated unique Student IDs
+
+### Student Profiles
+- Email address
+- Phone number
+- Year of study
+- Change password
+
+### Academic Records
+- Record grades for six subjects
+- View student grades
+
+### Data Persistence
+- Save student records to files
+- Load student records automatically at startup
+
+---
 
 ## Technologies Used
 
@@ -22,6 +47,8 @@ A console-based Student Management System built in C++ as a personal project to 
 * Functions
 * Multi-file project structure
 * Command Line Interface (CLI)
+
+--- 
 
 ## What I Learned
 
@@ -38,50 +65,42 @@ This project has helped me gain practical experience with:
 ## Project Structure
 
 ```text
-Student Management System/
-│
-├── main.cpp
-├── students.cpp
-├── students.h
-├── menus.h
+Student-Management-System/ │ 
+├── main.cpp 
+├── students.cpp 
+├── students.h 
+├── menus.h 
+├── students.txt 
+├── CHANGELOG.md 
 └── README.md
 ```
 
-## Current Functionality
 
-### Student Records
+## Current Version
+[v0.5.0] - Student Profile
 
-* Add students
-* View all students
-* Search students
-* Edit student information
-* Delete student records
+### Implemented:
+- Student authentication
+- Admin authentication
+- Student profile information
+- Password management
+- Persistent storage
+- Modular architecture
 
-### Grade Management
-
-* Enter grades for multiple subjects
-* View individual student grades
-* Calculate and display averages
-
-## Future Improvements
-
-* Save student records to files
-* Load records when the program starts
-* Improve menu navigation
-* Support more subjects and programs
-* Generate reports and statistics
-* Replace arrays with dynamic data structures
-* Improve error handling
-
-## Planned Features 
-- [x] Student records 
+## Roadmap
+- [x] Student CRUD 
 - [x] Grade Management
 - [x] File persistence
-- [ ] Authentication system
-- [ ] Student accounts
-- [ ] Admin accounts
-- [ ] Role-based priviledges
+- [x] Authentication system
+- [x] Student accounts
+- [x] Admin accounts
+- [x] Role-based priviledges
+- [ ] Course Management
+- [ ] Course Registration
+- [ ] Academic Reports
+- [ ] SQLite Database
 - [ ] GUI Application
+
 
 ## Getting Started
 
