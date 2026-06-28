@@ -8,6 +8,7 @@
 #include "menus.h"
 #include "admin_logic.h"
 #include "students.h"
+#include "courses.h"
 #include <fstream>
 #include <unistd.h> 
 using namespace std;
@@ -27,8 +28,16 @@ public:
     
 };
 
+class Course{
+public:
+    string course_code, course_name, course_program;
+    int year_offered;
+};
+
 extern Student students[100];
 extern int student_count;
 extern int next_student_id;
+extern Course course[100];
+extern int course_count;
 
 #endif
