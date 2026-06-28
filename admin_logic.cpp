@@ -5,7 +5,7 @@ Student students[100];
 int student_count = 0;
 int next_student_id = 260000;
 
-void add_students(){
+void add_student(){
     system("cls");
     cout<<"===== Adding New Student =====\n";
 
@@ -68,7 +68,7 @@ void view_all_students(){
 
 }
 
-void search_students(){
+void search_student(){
     system("cls");
     cout<<"\n===== Search Student =====\n";
     cout<<"Enter ID to search: ";
@@ -233,7 +233,7 @@ void delete_student(){
     getline(cin, password);
     if (password != "admin123")
     {
-        cout<<"Invalid password. Please try again: ";
+        cout<<"Invalid password. Please try again later\n";
         getline(cin, password);
     } else {
         cout<<"Password accepted. Proceeding with deletion...\n";

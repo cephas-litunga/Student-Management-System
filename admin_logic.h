@@ -1,9 +1,9 @@
 #ifndef ADMIN_LOGIC_H
 #define ADMIN_LOGIC_H
 
-void add_students();
+void add_student();
 void view_all_students();
-void search_students();
+void search_student();
 void edit_student_details();
 void delete_student();
 void edit_student_grades();
