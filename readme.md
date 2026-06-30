@@ -95,31 +95,20 @@ Student-Management-System/ │
 - [x] Student accounts
 - [x] Admin accounts
 - [x] Role-based priviledges
-- [ ] Course Management
-- [ ] Course Registration
+- [x] Course Management
+- [ ] Lecturer Management
+- [ ] Course Registration and Assignment
 - [ ] Academic Reports
 - [ ] SQLite Database
 - [ ] GUI Application
+- [ ] Web Version
 
 
-## Getting Started
-
-### Compile
-
-```bash
-g++ main.cpp students.cpp -o main
-```
-
-### Run
-
-```bash
-./main
-```
+## Purpose 
+This project is part of my journey toward becoming a software engineer. Rather than focusing only on course wrok, i'm buildig increasingly complex software to strengthen my understanding of software design, problem-solving, and application developement.
 
 ## Author
 
 **Cephas Litunga**
 
 Aspiring Software Engineer | Computer Science Student
-
-This project is part of my journey of learning software development through hands-on practice and building in public.

@@ -10,5 +10,5 @@ void edit_student_grades();
 void view_student_grades();
 void load_students();
 void save_students();
-
+void course_management();
 #endif

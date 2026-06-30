@@ -75,16 +75,26 @@ This version follows a milestone-based versioning approach to track its developm
 
 ---
 
+## [v.0.6.0] - Course Management 
+- Course management
+
+--- 
+
+## [v.0.7.0] - Lecturer Management
+
+
+---
+
+## [v.0.8.0] - Course Assignment
+
 ## Planned
 
-### v.0.6.0
-- Course management
-- Course registration
+### v.0.9.0
 - Academic reports
 - Student statistics
 - Enhanced validation
 
-### v.0.7.0
+### v.0.8.0
 - Graphical User Interface (GUI)
 - SQLite database integration
 - Improved application architecture

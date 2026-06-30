@@ -10,13 +10,14 @@ static inline int admin_control_menu(){
     system("cls");
     cout<<"============ Welcome Admin =================\n";
     cout<<"1. Register Student\n";
-    cout<<"2. Search Student\n";
-    cout<<"3. View all students\n";
-    cout<<"4. Edit Student Grades\n";
-    cout<<"5. Edit Student Details\n";
-    cout<<"6. View Student Grades\n";
-    cout<<"7. Delete Student\n";
-    cout<<"8. Logout\n";
+    cout<<"2. Course Management\n";
+    cout<<"3. Search Student\n";
+    cout<<"4. View all students\n";
+    cout<<"5. Edit Student Grades\n";
+    cout<<"6. Edit Student Details\n";
+    cout<<"7. View Student Grades\n";
+    cout<<"8. Delete Student\n";
+    cout<<"9. Logout\n";
     cout<<"Enter option: ";
     cin>>acm_option;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -80,6 +81,22 @@ static inline int student_menu(){
     return sm_option;
 }
 
+static inline int course_management_menu(){
+    int cmm_option;
+    system("cls");
+    cout<<"============ Course Management Menu =================\n";
+    cout<<"1. Add Course\n";
+    cout<<"2. View all Courses\n";
+    cout<<"3. Delete Course\n";
+    cout<<"4. Search Course\n";
+    cout<<"5. Edit Course\n";
+    cout<<"6. Save Courses\n";
+    cout<<"7. Exit\n";
+    cout<<"Enter option: ";
+    cin>>cmm_option;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    return cmm_option;
+}
 
 
 #endif

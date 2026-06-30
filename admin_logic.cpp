@@ -324,3 +324,21 @@ void load_students(){
         cout<<"No saved students found!\n";
     }
 }
+
+void course_management(){
+    system("cls");
+    while(1){
+        int option = course_management_menu();
+        system("cls");
+        switch(option){
+            case 1: add_course(); break;
+            case 2: view_all_courses(); break;
+            case 3: delete_course(); break;
+            case 4: search_course(); break;
+            case 5: edit_course(); break;
+            case 6: save_courses(); break;
+            case 7: return; // Exit the course management menu
+            default: cout<<"Invalid option! Please try again.\n"; system("pause");
+        }
+    }
+}

@@ -1,6 +1,46 @@
 #include "globals.h"
 using namespace std;
 
+void login(){
+    int option = login_menu();
+    if (option == 1) {
+        if(admin_login() == 1){
+            while(1){
+                int acm_option = admin_control_menu();
+                switch (acm_option){
+                    case 1: add_student(); break;
+                    case 2: course_management(); break;
+                    case 3: search_student(); break;
+                    case 4: view_all_students(); break;
+                    case 5: edit_student_grades(); break;
+                    case 6: edit_student_details(); break;
+                    case 7: view_student_grades(); break;
+                    case 8: delete_student(); break;
+                    case 9: cout<<"Logging out...\n"; save_students(); save_courses(); system("pause"); return;
+                    default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
+                }
+            }
+        }
+    }
+    else if (option == 2){
+        int current_student = student_login();
+        if(current_student != -1){
+            while(1){
+                int s_option = student_menu();
+                switch (s_option){
+                    case 1: view_grades(current_student); break;
+                    case 2: view_details(current_student); break;
+                    case 3: update_info(current_student); break;
+                    case 4: cout<<"Logging out...\n"; save_students(); save_courses(); system("pause"); return;
+                    default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
+                }
+            }
+        }
+    }
+    else if (option == 3) return;
+    else cout<<"Invalid option! Please try again.\n";
+          
+}
 
 bool admin_login(){
     system("cls");
@@ -27,46 +67,6 @@ bool admin_login(){
         system("pause");
     }
     return accepted;
-}
-
-void login(){
-    int option = login_menu();
-    if (option == 1) {
-        if(admin_login() == 1){
-            while(1){
-                int acm_option = admin_control_menu();
-                switch (acm_option){
-                    case 1: add_students(); break;
-                    case 2: search_students(); break;
-                    case 3: view_all_students(); break;
-                    case 4: edit_student_grades(); break;
-                    case 5: edit_student_details(); break;
-                    case 6: view_student_grades(); break;
-                    case 7: delete_student(); break;
-                    case 8: cout<<"Logging out...\n"; save_students(); system("pause"); return;
-                    default: cout<<"Invalid option! Please try again.\n"; system("pause");
-                }
-            }
-        }
-    }
-    else if (option == 2){
-        int current_student = student_login();
-        if(current_student != -1){
-            while(1){
-                int s_option = student_menu();
-                switch (s_option){
-                    case 1: view_grades(current_student); break;
-                    case 2: view_details(current_student); break;
-                    case 3: update_info(current_student); break;
-                    case 4: cout<<"Logging out...\n"; save_students(); system("pause"); return;
-                    default: cout<<"Invalid option! Please try again.\n"; system("pause");
-                }
-            }
-        }
-    }
-    else if (option == 3) return;
-    else cout<<"Invalid option! Please try again.\n";
-          
 }
 
 

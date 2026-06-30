@@ -22,6 +22,7 @@ void add_course(){
 
 void view_all_courses(){
     system("cls");
+    cout<<"=================== Courses ==================\n";
     if (course_count > 0){
         for(int i = 0; i < course_count; i++){
             cout<<"Course Program: "<<course[i].course_program<<endl;
@@ -31,6 +32,7 @@ void view_all_courses(){
             cout<<"________________________________________________\n";
         }
     }
+    system("pause");
 }
 
 void search_course(){
@@ -52,10 +54,11 @@ void search_course(){
     if(!found){
         cout<<"Course "<<searched_course<<" not found!\n";
     }
-
+    system("pause");
 }
 
 void edit_course(){
+    system("cls");
     if(course_count == 0){
         cout<<"No courses in system!\n";
         return;
@@ -83,7 +86,7 @@ void edit_course(){
     if(!found){
         cout<<"Course "<<searched_course<<" not found!\n";
     }
-
+    system("pause");
 }
 
 void delete_course(){
@@ -138,8 +141,9 @@ void save_courses(){
         }
         outFile.close();
     }else{
-        cout<<"Error Saving Students\n";
+        cout<<"Error Saving Courses\n";
     }
+    cout<<"Courses Saved Successfully\n";
 }
 
 void load_courses(){
