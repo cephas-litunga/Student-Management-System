@@ -6,17 +6,12 @@ void login(){
     if (option == 1) {
         if(admin_login() == 1){
             while(1){
-                int acm_option = admin_control_menu();
-                switch (acm_option){
-                    case 1: add_student(); break;
-                    case 2: course_management(); break;
-                    case 3: search_student(); break;
-                    case 4: view_all_students(); break;
-                    case 5: edit_student_grades(); break;
-                    case 6: edit_student_details(); break;
-                    case 7: view_student_grades(); break;
-                    case 8: delete_student(); break;
-                    case 9: cout<<"Logging out...\n"; save_students(); save_courses(); system("pause"); return;
+                int am_option = admin_menu();
+                switch (am_option){
+                    case 1: student_management(); break;
+                    case 2:{ cout<<"lecturer Management Coming soon!\n"; system("pause"); break;}
+                    case 3: course_management(); break;
+                    case 4: cout<<"Logging out...\n"; save_students(); save_courses(); system("pause"); return;
                     default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
                 }
             }
