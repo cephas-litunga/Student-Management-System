@@ -4,5 +4,6 @@
 void login();
 bool admin_login();
 int student_login();
+int lecturer_login();
 
 #endif 

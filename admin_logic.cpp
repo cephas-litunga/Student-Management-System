@@ -4,7 +4,65 @@ using namespace std;
 Student students[100];
 int student_count = 0;
 int next_student_id = 260000;
+Lecturer lecturer[100];
+int lecturer_count = 0;
 
+
+// Main Management functions
+void student_management(){
+    system("cls");
+    while(1){
+        int st_option = student_management_menu();
+        switch(st_option){
+            case 1: add_student(); break;
+            case 2: search_student(); break;
+            case 3: view_all_students(); break;
+            case 4: edit_student_grades(); break;
+            case 5: edit_student_details(); break;
+            case 6: view_student_grades(); break;
+            case 7: delete_student(); break;
+            case 8: save_students(); save_courses(); return;
+            default: cout<<"Invalid Option! Please try again.\n"; system("pause"); break;
+        }
+    }
+}
+
+void course_management(){
+    system("cls");
+    while(1){
+        int option = course_management_menu();
+        system("cls");
+        switch(option){
+            case 1: add_course(); break;
+            case 2: view_all_courses(); break;
+            case 3: delete_course(); break;
+            case 4: search_course(); break;
+            case 5: edit_course(); break;
+            case 6: cout<<"Exiting!\n"; save_courses(); return; 
+            default: cout<<"Invalid option! Please try again.\n"; system("pause");
+        }
+    }
+}
+
+void lecturer_management(){
+    system("cls");
+    while(1){
+        int option = lecturer_management_menu();
+        system("cls");
+        switch(option){
+            case 1: register_lecturer(); break;
+            case 2: search_lecturer(); break;
+            case 3: view_all_lecturers(); break;
+            case 4: edit_lecturer(); break;
+            case 5: delete_lecturer(); break;
+            case 6: save_lecturers(); return; 
+            default: cout<<"Invalid option! Please try again.\n"; system("pause");
+        }
+    }
+}
+
+
+// ------------------- Student Management Functions ------------------- 
 void add_student(){
     system("cls");
     cout<<"===== Adding New Student =====\n";
@@ -50,6 +108,7 @@ void add_student(){
 void view_all_students(){
 
     system("cls");
+    cout<<"----------------- All Students -----------------\n";
     if(student_count > 0){
         for(int i = 0; i < student_count; i++){
             cout<<"\nName: "<<students[i].name<<endl;
@@ -325,37 +384,191 @@ void load_students(){
     }
 }
 
-void student_management(){
+// ----------------- Lecuterer Management Functions ----------------- 
+
+void register_lecturer(){
     system("cls");
-    while(1){
-        int st_option = student_management_menu();
-        switch(st_option){
-            case 1: add_student(); break;
-            case 2: search_student(); break;
-            case 3: view_all_students(); break;
-            case 4: edit_student_grades(); break;
-            case 5: edit_student_details(); break;
-            case 6: view_student_grades(); break;
-            case 7: delete_student(); break;
-            case 8: save_students(); save_courses(); return;
-            default: cout<<"Invalid Option! Please try again.\n"; system("pause"); break;
+    cout<<"===== Registering New Lecturer =====\n";
+
+    cout<<"Enter Full Name: ";
+    getline(cin, lecturer[lecturer_count].name);
+
+    cout<<"Enter Department: ";
+    getline(cin, lecturer[lecturer_count].department);
+
+    cout<<"Enter Email: ";
+    getline(cin, lecturer[lecturer_count].email);
+
+    cout<<"Enter Phone Number: ";
+    cin>>lecturer[lecturer_count].phone_number;
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout<<"Create Lecturer Password: ";
+    getline(cin, lecturer[lecturer_count].password);
+
+    lecturer[lecturer_count].lecturerID = 1000 + lecturer_count; // Assign a unique ID
+    lecturer_count++;
+
+    cout<<"Lecturer registered successfully!\n";
+    cout<<"Lecturer ID: "<<lecturer[lecturer_count - 1].lecturerID<<endl;
+
+    system("pause");
+}
+
+void search_lecturer(){
+    system("cls");
+    if(lecturer_count == 0){
+        cout<<"No lecturers found!\n";
+        system("pause");
+        return;
+    }
+    cout<<"===== Search Lecturer =====\n";
+    int search_id;
+    bool found = false;
+    cout<<"Enter lecturer ID: ";
+    cin>>search_id;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    for(int i = 0; i < lecturer_count; i++){
+        if(search_id == lecturer[i].lecturerID){
+            cout<<"Name: "<<lecturer[i].name<<endl;
+            cout<<"Department: "<<lecturer[i].department<<endl;
+            cout<<"Email: "<<lecturer[i].email<<endl;
+            cout<<"Phone Number: "<<lecturer[i].phone_number<<endl;
+            found = true;
+            break;
         }
+    }
+    if(!found){
+        cout<<"Lecturer with ID "<<search_id<<" not found!\n";
+    }
+    system("pause");
+}
+
+void view_all_lecturers(){
+    system("cls");
+    cout<<"----------------- All Lecturers -----------------\n";
+    if(lecturer_count == 0){
+        cout<<"No lecturers found!\n";
+    } else {
+        for(int i = 0; i < lecturer_count; i++){
+            cout<<"Lecturer ID: "<<lecturer[i].lecturerID<<endl;
+            cout<<"Name: "<<lecturer[i].name<<endl;
+            cout<<"Department: "<<lecturer[i].department<<endl;
+            cout<<"Email: "<<lecturer[i].email<<endl;
+            cout<<"Phone Number: "<<lecturer[i].phone_number<<endl;
+            cout<<"-----------------------------------\n";
+        }
+    }
+    system("pause");
+}
+
+void edit_lecturer(){
+    system("cls");
+    if(lecturer_count == 0){
+        cout<<"No lecturers found!\n";
+        system("pause");
+        return;
+    }
+    cout<<"===== Edit Lecturer Details =====\n";
+    int search_id;
+    bool found = false;
+    cout<<"Enter lecturer ID: ";
+    cin>>search_id;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    for(int i = 0; i < lecturer_count; i++){
+        if(search_id == lecturer[i].lecturerID){
+            cout<<"Enter Full Name: ";
+            getline(cin, lecturer[i].name);
+            cout<<"Enter Department: ";
+            getline(cin, lecturer[i].department);
+            cout<<"Enter Email: ";
+            getline(cin, lecturer[i].email);
+            cout<<"Enter Phone Number: ";
+            cin>>lecturer[i].phone_number;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout<<"Lecturer Details updated successfully!\n";
+            found = true;
+            break;
+        }
+    }
+    if(!found){
+        cout<<"Lecturer "<<search_id<<" not found\n";
+    }
+    system("pause");
+}
+
+void delete_lecturer(){
+    system("cls");
+    if(lecturer_count == 0){
+        cout<<"No lecturers found!\n";
+        system("pause");
+        return;
+    }
+    cout<<"===== Delete Lecturer =====\n";
+    int search_id;
+    bool found = false;
+    cout<<"Enter lecturer ID: ";
+    cin>>search_id;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    for(int i = 0; i < lecturer_count; i++){
+        if(search_id == lecturer[i].lecturerID){
+            for(int j = i; j < lecturer_count - 1; j++){
+                lecturer[j] = lecturer[j + 1];
+            }
+            lecturer_count--;
+            cout<<"Lecturer deleted successfully!\n";
+            found = true;
+            break;
+        }
+    }
+    if(!found){
+        cout<<"Lecturer "<<search_id<<" not found\n";
+    }
+    system("pause");
+}
+
+void save_lecturers(){
+    ofstream outFile("lecturers.txt");
+    if(outFile.is_open()){
+        for(int i = 0; i < lecturer_count; i++){
+            outFile<<lecturer[i].lecturerID<<"|"<<lecturer[i].name<<"|"
+            <<lecturer[i].department<<"|"<<lecturer[i].email<<"|"
+            <<lecturer[i].phone_number<<"|"<<lecturer[i].password<<"\n";
+        }
+        outFile.close();
+    } else {
+        cout<<"Error Saving Lecturers\n";
     }
 }
 
-void course_management(){
-    system("cls");
-    while(1){
-        int option = course_management_menu();
-        system("cls");
-        switch(option){
-            case 1: add_course(); break;
-            case 2: view_all_courses(); break;
-            case 3: delete_course(); break;
-            case 4: search_course(); break;
-            case 5: edit_course(); break;
-            case 6: cout<<"Exiting!\n"; save_courses(); return; 
-            default: cout<<"Invalid option! Please try again.\n"; system("pause");
+void load_lecturers(){
+    ifstream inFile("lecturers.txt");
+    if(inFile.is_open()){
+        lecturer_count = 0;
+        string line;
+        while(getline(inFile, line)){
+            if(lecturer_count >= 100) break;
+            size_t pos = 0;
+            string token;
+            int field_count = 0;
+            while((pos = line.find('|')) != string::npos){
+                token = line.substr(0, pos);
+                switch(field_count){
+                    case 0: lecturer[lecturer_count].lecturerID = stoi(token); break;
+                    case 1: lecturer[lecturer_count].name = token; break;
+                    case 2: lecturer[lecturer_count].department = token; break;
+                    case 3: lecturer[lecturer_count].email = token; break;
+                    case 4: lecturer[lecturer_count].phone_number = token; break;
+                }
+                line.erase(0, pos + 1);
+                field_count++;
+            }
+            lecturer[lecturer_count].password = line; // Last field
+            lecturer_count++;
         }
+        inFile.close();
+    } else {
+        cout<<"No saved lecturers found!\n";
     }
 }

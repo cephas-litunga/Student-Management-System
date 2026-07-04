@@ -9,6 +9,7 @@
 #include "admin_logic.h"
 #include "students.h"
 #include "courses.h"
+#include "lecturer.h"
 #include <fstream>
 #include <unistd.h> 
 using namespace std;
@@ -34,10 +35,19 @@ public:
     int year_offered;
 };
 
+class Lecturer{
+public:
+    int lecturerID;
+    string name, email, password, phone_number, department;
+};
+
+
 extern Student students[100];
 extern int student_count;
 extern int next_student_id;
 extern Course course[100];
 extern int course_count;
+extern Lecturer lecturer[100];
+extern int lecturer_count;
 
 #endif

@@ -9,10 +9,10 @@ void login(){
                 int am_option = admin_menu();
                 switch (am_option){
                     case 1: student_management(); break;
-                    case 2:{ cout<<"lecturer Management Coming soon!\n"; system("pause"); break;}
+                    case 2: lecturer_management(); break;
                     case 3: course_management(); break;
-                    case 4: cout<<"Logging out...\n"; save_students(); save_courses(); system("pause"); return;
-                    default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
+                    case 4: cout<<"Logging out...\n"; system("pause"); return;
+                    default: cout<<"Invalid option! Please try again.\n"; break;
                 }
             }
         }
@@ -32,7 +32,20 @@ void login(){
             }
         }
     }
-    else if (option == 3) return;
+    else if (option == 3) {
+        int current_lecturer = lecturer_login();
+        if(current_lecturer != -1){
+            while(1){
+                int l_option = lecturer_menu();
+                switch (l_option){
+                    case 1: view_lecturer_details(current_lecturer); break;
+                    case 2: update_lecturer_info(current_lecturer); break;
+                    case 3: cout<<"Logging out...\n"; save_lecturers(); system("pause"); return;
+                    default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
+                }
+            }
+        }
+    }
     else cout<<"Invalid option! Please try again.\n";
           
 }
@@ -90,6 +103,35 @@ int student_login(){
     system("cls");
     cout<<"===== Student Login =====\n";
     cout<<"Invalid student ID or password.\n";
+    system("pause");
+    return -1;
+}
+
+int lecturer_login(){
+    system("cls");
+    int lecturer_id;
+    string password;
+    cout<<"===== Lecturer Login =====\n";
+    cout<<"Enter Lecturer ID: ";
+    cin>>lecturer_id;
+    cin.ignore();
+    cout<<"Enter password: ";
+    getline(cin, password);
+
+    for(int i = 0; i < lecturer_count; i++){
+        if(lecturer[i].lecturerID == lecturer_id && lecturer[i].password == password){
+            system("cls");
+            cout<<"===== Lecturer Login =====\n";
+            cout<<"Login successful!\n";
+            cout<<"Welcome, "<<lecturer[i].name<<"!\n";
+            system("pause");
+            return i;
+        }
+    }
+
+    system("cls");
+    cout<<"===== Lecturer Login =====\n";
+    cout<<"Invalid lecturer ID or password.\n";
     system("pause");
     return -1;
 }

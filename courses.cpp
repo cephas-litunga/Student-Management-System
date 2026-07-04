@@ -143,7 +143,6 @@ void save_courses(){
     }else{
         cout<<"Error Saving Courses\n";
     }
-    cout<<"Courses Saved Successfully\n";
 }
 
 void load_courses(){

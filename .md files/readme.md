@@ -72,20 +72,15 @@ Student-Management-System/ │
 ├── menus.h 
 ├── students.txt 
 ├── CHANGELOG.md 
+├── lecturers.cpp
+├── lecturers.h
+├── courses.cpp
+├── courses.h
 └── README.md
 ```
 
 
-## Current Version
-[v0.5.0] - Student Profile
 
-### Implemented:
-- Student authentication
-- Admin authentication
-- Student profile information
-- Password management
-- Persistent storage
-- Modular architecture
 
 ## Roadmap
 - [x] Student CRUD 
