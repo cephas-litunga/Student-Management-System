@@ -5,16 +5,13 @@ void view_lecturer_details(int lecturer_index){
     cout<<"===== Lecturer Details =====\n";
     cout<<"Email: "<<lecturer[lecturer_index].email<<endl;
     cout<<"Phone Number: "<<lecturer[lecturer_index].phone_number<<endl;
+    cout<<"Lecturer ID: "<<lecturer[lecturer_index].lecturerID<<endl;
     system("pause");
 }
 
 void update_lecturer_info(int lecturer_index){
     system("cls");
     cout<<"===== Update Lecturer Info =====\n";
-    cout<<"Enter Full Name: ";
-    getline(cin, lecturer[lecturer_index].name);
-    cout<<"Enter Department: ";
-    getline(cin, lecturer[lecturer_index].department);
     cout<<"Enter Email: ";
     getline(cin, lecturer[lecturer_index].email);
     cout<<"Enter Phone Number: ";

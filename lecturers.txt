@@ -1,0 +1,4 @@
+1000|Lesly Lengwe|Computer Engineering|lengwe1@gmail.com|097434913|test123
+1001|Philimon Mumba|Computer Science|mumba101@gmail.com|096045422|mumba101
+1002|Henry Scot|Computer Science|scot111@gmail.com|0978790087|scot1
+1003|Margret Siwale|Accounts|maggie@gmail.com|0964321432|mggie123

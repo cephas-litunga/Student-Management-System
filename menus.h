@@ -119,14 +119,29 @@ static inline int lecturer_management_menu(){
     system("cls");
     cout<<"============ Lecturer Management Menu =================\n";
     cout<<"1. Add Lecturer\n";
-    cout<<"2. Search Lecturer\n";
-    cout<<"3. View all Lecturers\n";
-    cout<<"4. Edit Lecturer Details\n";
-    cout<<"5. Delete Lecturer\n";
-    cout<<"6. Back\n";
+    cout<<"2. Lecturer Assignment\n";
+    cout<<"3. Search Lecturer\n";
+    cout<<"4. View all Lecturers\n";
+    cout<<"5. Edit Lecturer Details\n";
+    cout<<"6. Delete Lecturer\n";
+    cout<<"7. Back\n";
     cout<<"Enter option: ";
-    lm_option = validateInput(1,6);
+    lm_option = validateInput(1,7);
     return lm_option;
+}
+
+static inline int lecturer_assignment_menu(){
+    int lam_option;
+    system("cls");
+    cout<<"============ Lecturer Management Menu =================\n";
+    cout<<"1. Assign Lecturer\n";
+    cout<<"2. View Lecturer's Courses\n";
+    cout<<"3. View Course Lecturer\n";
+    cout<<"4. Remove Lecturer Assignment\n";
+    cout<<"5. Exit\n";
+    cout<<"Enter option: ";
+    lam_option = validateInput(1,5);
+    return lam_option;
 }
 
 #endif

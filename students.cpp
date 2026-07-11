@@ -1,5 +1,5 @@
 #include "globals.h"
-
+// Student Portal Functions
 void view_details(int index){
     system("cls");
     cout<<"==================== Student Details ====================\n";
@@ -67,4 +67,6 @@ void update_info(int index){
     } else {
         cout<<"Invalid option! Please try again.\n";
     }
+    save_courses(); 
+    save_students();
 }

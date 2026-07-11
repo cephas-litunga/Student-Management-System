@@ -10,6 +10,9 @@
 #include "students.h"
 #include "courses.h"
 #include "lecturer.h"
+#include "students_crud.h"
+#include "assignment.h"
+#include "lecturer_crud.h"
 #include <fstream>
 #include <unistd.h> 
 using namespace std;
@@ -33,6 +36,8 @@ class Course{
 public:
     string course_code, course_name, course_program;
     int year_offered;
+    int lecturerID = -1;
+
 };
 
 class Lecturer{
@@ -49,5 +54,6 @@ extern Course course[100];
 extern int course_count;
 extern Lecturer lecturer[100];
 extern int lecturer_count;
+extern int next_lecturer_id;
 
 #endif

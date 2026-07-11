@@ -7,35 +7,47 @@ The project started as a simple CRUD application and is gradually evolving into 
 ---
 
 ## Features
-### Authentication
 
-- Admin login
+### Authentication
+- Administrator login
 - Student login
--Role-based access control
+- Lecturer login
 - Password management
-- Persistent account storage
+- Role-based access control
 
 ### Student Management
 - Register students
-- Search students by Student ID
+- Search students
 - View all students
 - Edit student details
-- Delete student records
-- Automatically generated unique Student IDs
+- Delete students
+- Student profile management
+- Grade management
 
-### Student Profiles
-- Email address
-- Phone number
-- Year of study
-- Change password
+### Course Management
+- Add courses
+- Search courses
+- View all courses
+- Edit courses
+- Delete courses
 
-### Academic Records
-- Record grades for six subjects
-- View student grades
+### Lecturer Management
+- Register lecturers
+- Search lecturers
+- View all lecturers
+- Edit lecturer details
+- Delete lecturers
+- Lecturer profile management
+
+### Lecturer-Course Assignment
+- Assign lecturers to courses
+- View lecturer assignments
+- View course lecturer
+- Remove lecturer assignments
 
 ### Data Persistence
-- Save student records to files
-- Load student records automatically at startup
+- Save all data to text files
+- Load all data when the application starts
 
 ---
 
@@ -62,25 +74,36 @@ This project has helped me gain practical experience with:
 * Debugging and problem-solving
 * Structuring larger programs beyond a single source file
 
-## Project Structure
+--- 
 
-```text
-Student-Management-System/ │ 
-├── main.cpp 
-├── students.cpp 
-├── students.h 
-├── menus.h 
-├── students.txt 
-├── CHANGELOG.md 
-├── lecturers.cpp
-├── lecturers.h
-├── courses.cpp
-├── courses.h
-└── README.md
+## Current Project Structure
+
 ```
+main.cpp
+globals.h
 
+auth.cpp
+auth.h
 
+menus.h
 
+admin_logic.cpp
+admin_logic.h
+
+students.cpp
+students.h
+students_crud.cpp
+
+courses.cpp
+courses.h
+
+lecturer.cpp
+lecturer.h
+lecturer_crud.cpp
+
+assignment.cpp
+```
+---
 
 ## Roadmap
 - [x] Student CRUD 
@@ -91,13 +114,15 @@ Student-Management-System/ │
 - [x] Admin accounts
 - [x] Role-based priviledges
 - [x] Course Management
-- [ ] Lecturer Management
-- [ ] Course Registration and Assignment
+- [x] Lecturer Management
+- [x] Lecturer-Course Assignment
+- [ ] Course Registration 
 - [ ] Academic Reports
 - [ ] SQLite Database
 - [ ] GUI Application
 - [ ] Web Version
 
+---
 
 ## Purpose 
 This project is part of my journey toward becoming a software engineer. Rather than focusing only on course wrok, i'm buildig increasingly complex software to strengthen my understanding of software design, problem-solving, and application developement.
