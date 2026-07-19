@@ -13,6 +13,7 @@
 #include "students_crud.h"
 #include "assignment.h"
 #include "lecturer_crud.h"
+#include "registration.h"
 #include <fstream>
 #include <unistd.h> 
 using namespace std;
@@ -24,6 +25,7 @@ public:
     int studentID = 260001;
     char gender;
     float grades[6];  
+
     Student() {
         for(int i = 0; i < 6; i++) {
             grades[i] = 0.0;
@@ -46,6 +48,11 @@ public:
     string name, email, password, phone_number, department;
 };
 
+class Registration{
+public:
+    int studentID;
+    string course_code;
+};
 
 extern Student students[100];
 extern int student_count;
@@ -55,5 +62,7 @@ extern int course_count;
 extern Lecturer lecturer[100];
 extern int lecturer_count;
 extern int next_lecturer_id;
+extern Registration registrations[500];
+extern int registration_count;
 
 #endif

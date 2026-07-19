@@ -1,6 +1,6 @@
 # Student Information System Roadmap
 
-This document outlines the planned development of the Student Information System.
+This roadmap outlines the planned development of the project.
 
 ---
 
@@ -30,38 +30,28 @@ This document outlines the planned development of the Student Information System
 ## v0.8.0
 - Lecturer-Course Assignment
 
----
-
-# In Progress
-
-## v0.9.0 - Student Course Registration
-
-### Planned Features
-
-- Register for courses
-- Drop registered courses
-- View registered courses
-- Prevent duplicate registration
-- Validate student's program
-- Validate student's year of study
-- Save registrations
-- Load registrations
+## v0.9.0
+- Student Course Registration
 
 ---
 
-## v1.0.0 - Academic Records
+# Next Milestone
+
+## v1.0.0 - Grade Management & Academic Records
 
 ### Planned Features
 
-- Lecturer views assigned courses
-- Lecturer enters grades
+- Lecturers view assigned courses
+- View students registered in each course
+- Enter student grades
+- Edit grades
 - Students view results
 - GPA calculation
-- Academic transcript
+- Academic transcript generation
 
 ---
 
-# Future Versions
+# Future
 
 ## Database
 - SQLite integration
@@ -73,12 +63,12 @@ This document outlines the planned development of the Student Information System
 - Web-based Student Information System
 
 ## Reporting
-- Printable transcripts
 - Student reports
-- Course reports
 - Lecturer reports
+- Course reports
+- Printable transcripts
 
 ## Security
 - Password hashing
-- Improved authentication
-- Enhanced role permissions
+- Enhanced authentication
+- Improved role permissions

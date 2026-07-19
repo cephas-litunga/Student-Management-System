@@ -63,9 +63,10 @@ static inline int lecturer_menu(){
     cout<<"============ Lecturer Portal Menu =================\n";
     cout<<"1. View Details\n";
     cout<<"2. Update info\n";
-    cout<<"3. Logout\n";
+    cout<<"3. Change Password\n";
+    cout<<"4. Logout\n";
     cout<<"Enter option: ";
-    lm_option = validateInput(1,3);
+    lm_option = validateInput(1,4);
     return lm_option;
 }
 
@@ -76,9 +77,11 @@ static inline int student_menu(){
     cout<<"1. View Grades\n";
     cout<<"2. View Details\n";
     cout<<"3. Update info\n";
-    cout<<"4. Logout\n";
+    cout<<"4. Change Password\n";
+    cout<<"5. Course Registration\n";
+    cout<<"6. Logout\n";
     cout<<"Enter option: ";
-    sm_option = validateInput(1,4);
+    sm_option = validateInput(1,6);
     return sm_option;
 }
 
@@ -142,6 +145,19 @@ static inline int lecturer_assignment_menu(){
     cout<<"Enter option: ";
     lam_option = validateInput(1,5);
     return lam_option;
+}
+static inline int registration_menu(){
+    int r_option;
+    system("cls");
+    cout<<"============ Course Registration =================\n";
+    cout<<"1. View Available Courses\n";
+    cout<<"2. Register for Course\n";
+    cout<<"3. View Registered Courses\n";
+    cout<<"4. Drop Course\n";
+    cout<<"5. Back\n";
+    cout<<"Enter option: ";
+    r_option = validateInput(1,5);
+    return r_option;
 }
 
 #endif

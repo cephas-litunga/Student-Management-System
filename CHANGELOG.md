@@ -1,6 +1,28 @@
 # Changelog
 
-All notable changes to this project will be documented here.
+All notable changes to this project are documented here.
+
+---
+
+## [v0.9.0] - Student Course Registration
+
+### Added
+- Student course registration module
+- View available courses
+- Register for courses
+- View registered courses
+- Drop registered courses
+- Registration persistence
+- Registration loading on startup
+
+### Validation
+- Program eligibility checks
+- Year of study validation
+- Duplicate registration prevention
+
+### Improved
+- Connected Students and Courses through a registration system
+- Expanded the academic workflow of the system
 
 ---
 
@@ -9,13 +31,12 @@ All notable changes to this project will be documented here.
 ### Added
 - Lecturer assignment module
 - Assign lecturers to courses
-- View courses assigned to a lecturer
-- View lecturer assigned to a course
+- View lecturer assignments
+- View course lecturer
 - Remove lecturer assignments
 
 ### Improved
 - Connected Lecturer and Course modules
-- Expanded system relationships
 
 ---
 
@@ -26,12 +47,8 @@ All notable changes to this project will be documented here.
 - Lecturer CRUD operations
 - Lecturer login
 - Lecturer profile management
-- Change password
-- File persistence for lecturers
-
-### Improved
-- Expanded authentication system
-- Better separation of responsibilities
+- Password management
+- File persistence
 
 ---
 
@@ -39,7 +56,7 @@ All notable changes to this project will be documented here.
 
 ### Added
 - Course CRUD operations
-- Course persistence
+- File persistence for courses
 
 ---
 
@@ -50,7 +67,7 @@ All notable changes to this project will be documented here.
 - Phone number
 - Year of study
 - Student profile
-- Change password
+- Password management
 
 ---
 
@@ -60,15 +77,16 @@ All notable changes to this project will be documented here.
 - Login system
 - Administrator accounts
 - Student accounts
-- Role-based menus
+- Lecturer accounts
+- Role-based access
 
 ---
 
 ## [v0.3.0] - File Persistence
 
 ### Added
-- Save student data
-- Load student data
+- Save student records
+- Load student records
 - Automatic ID continuation
 
 ---

@@ -2,3 +2,4 @@ CS250|Data Structures, algorithms and programming|Computer Science|2|1000
 CS235|Introduction to Database Systems|Computer Science|2|1001
 CS150|Introduction to Programming|Computer Science|1|1002
 BF120|Financial Accounting|Banking and Finance|1|1003
+CS220|Computer Architecture|Computer Science|2|1004

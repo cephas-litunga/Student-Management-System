@@ -1,6 +1,6 @@
 #include "globals.h"
 
-// compile commmand: g++ main.cpp auth.cpp admin_logic.cpp students.cpp courses.cpp lecturer.cpp -o main
+// compile commmand: g++ main.cpp auth.cpp admin_logic.cpp students_crud.cpp lecturer_crud.cpp assignment.cpp courses.cpp students.cpp lecturer.cpp registration.cpp -o main
 
 using namespace std;
 
@@ -9,11 +9,12 @@ int main(){
     load_students();
     load_courses();
     load_lecturers();
+    load_registrations();
     while(1){
         menu_choice = home_menu();
         switch(menu_choice){
             case 1: login(); break;
-            case 2: cout<<"Exiting...\n"; save_students(); save_courses(); save_lecturers(); return 0;
+            case 2: cout<<"Exiting...\n"; save_students(); save_courses(); save_lecturers(); save_registrations(); return 0;
             default: cout<<"Invalid option! Please try again.\n"; system("pause");
         }
     }

@@ -45,6 +45,15 @@ The project started as a simple CRUD application and is gradually evolving into 
 - View course lecturer
 - Remove lecturer assignments
 
+### Student Course Registration
+- View available courses
+- Register for courses
+- View registered courses
+- Drop registered courses
+- Program eligibility validation
+- Year of study validation
+- Duplicate registration
+
 ### Data Persistence
 - Save all data to text files
 - Load all data when the application starts
@@ -80,6 +89,7 @@ This project has helped me gain practical experience with:
 
 ```
 main.cpp
+
 globals.h
 
 auth.cpp
@@ -102,6 +112,9 @@ lecturer.h
 lecturer_crud.cpp
 
 assignment.cpp
+
+registration.cpp
+registration.h
 ```
 ---
 
@@ -116,7 +129,7 @@ assignment.cpp
 - [x] Course Management
 - [x] Lecturer Management
 - [x] Lecturer-Course Assignment
-- [ ] Course Registration 
+- [x] Course Registration 
 - [ ] Academic Reports
 - [ ] SQLite Database
 - [ ] GUI Application

@@ -2,3 +2,4 @@
 1001|Philimon Mumba|Computer Science|mumba101@gmail.com|096045422|mumba101
 1002|Henry Scot|Computer Science|scot111@gmail.com|0978790087|scot1
 1003|Margret Siwale|Accounts|maggie@gmail.com|0964321432|mggie123
+1004|Langstone Shuumba|Computer Science|shumba101@gmail.com|097234212|test123

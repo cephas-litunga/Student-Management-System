@@ -26,7 +26,9 @@ void login(){
                     case 1: view_grades(current_student); break;
                     case 2: view_details(current_student); break;
                     case 3: update_info(current_student); break;
-                    case 4: cout<<"Logging out...\n"; save_students(); save_courses(); system("pause"); return;
+                    case 4: change_password(current_student); break;    
+                    case 5: student_register_course(current_student); break;
+                    case 6: cout<<"Logging out...\n"; save_students(); save_courses(); save_registrations(); system("pause"); return;
                     default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
                 }
             }
@@ -40,7 +42,8 @@ void login(){
                 switch (l_option){
                     case 1: view_lecturer_details(current_lecturer); break;
                     case 2: update_lecturer_info(current_lecturer); break;
-                    case 3: cout<<"Logging out...\n"; save_lecturers(); system("pause"); return;
+                    case 3: change_lecturer_password(current_lecturer); break;
+                    case 4: cout<<"Logging out...\n"; save_lecturers(); system("pause"); return;
                     default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
                 }
             }

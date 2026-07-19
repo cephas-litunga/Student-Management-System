@@ -69,4 +69,21 @@ void update_info(int index){
     }
     save_courses(); 
     save_students();
+    save_registrations();
+}
+
+void student_register_course(int index){
+    system("cls");
+    while(1){
+        int r_option = registration_menu();
+        system("cls");
+        switch (r_option){
+            case 1: view_available_courses(index); break;
+            case 2: register_course(index); break;
+            case 3: view_registered_courses(index); break;
+            case 4: drop_course(index); break;
+            case 5: cout<<"Returning to previous menu...\n"; system("pause"); 
+            default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
+        }
+    }
 }
