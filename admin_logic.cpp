@@ -17,11 +17,9 @@ void student_management(){
             case 1: add_student(); break;
             case 2: search_student(); break;
             case 3: view_all_students(); break;
-            case 4: edit_student_grades(); break;
-            case 5: edit_student_details(); break;
-            case 6: view_student_grades(); break;
-            case 7: delete_student(); break;
-            case 8: save_students(); save_courses(); return;
+            case 4: edit_student_details(); break;
+            case 5: delete_student(); break;
+            case 6: save_students(); save_courses(); return;
             default: cout<<"Invalid Option! Please try again.\n"; system("pause"); break;
         }
     }

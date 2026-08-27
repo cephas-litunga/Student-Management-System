@@ -23,12 +23,14 @@ void login(){
             while(1){
                 int s_option = student_menu();
                 switch (s_option){
-                    case 1: view_grades(current_student); break;
-                    case 2: view_details(current_student); break;
-                    case 3: update_info(current_student); break;
-                    case 4: change_password(current_student); break;    
-                    case 5: student_register_course(current_student); break;
-                    case 6: cout<<"Logging out...\n"; save_students(); save_courses(); save_registrations(); system("pause"); return;
+                    // case 1: view_grades(current_student); break;
+                    case 1: view_details(current_student); break;
+                    case 2: view_ca(current_student); break;
+                    case 3: view_grades(current_student); break;
+                    case 4: update_info(current_student); break;
+                    case 5: change_password(current_student); break;    
+                    case 6: student_register_course(current_student); break;
+                    case 7: cout<<"Logging out...\n"; save_students(); save_courses(); save_registrations(); system("pause"); return;
                     default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
                 }
             }
@@ -43,7 +45,9 @@ void login(){
                     case 1: view_lecturer_details(current_lecturer); break;
                     case 2: update_lecturer_info(current_lecturer); break;
                     case 3: change_lecturer_password(current_lecturer); break;
-                    case 4: cout<<"Logging out...\n"; save_lecturers(); system("pause"); return;
+                    case 4: view_assigned_courses(current_lecturer); break;
+                    case 5: manage_results(current_lecturer); break;
+                    case 6: cout<<"Logging out...\n"; save_lecturers(); system("pause"); return;
                     default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
                 }
             }
@@ -59,53 +63,65 @@ bool admin_login(){
     const string password = "admin123";
     string input_username, input_password;
     bool accepted = false;
+    int attempts = 0;
     cout<<"===== Admin Login =====\n";
     cout<<"Username: ";
     getline(cin, input_username);
-    cout<<"Password: ";
-    getline(cin, input_password);
-    
-    if(input_username == username && input_password == password){
-        system("cls");
-        cout<<"===== Admin Login =====\n";
-        cout<<"Login successful!\n";
-        accepted = true;
-        system("pause");
-    } else {
-        system("cls");
-        cout<<"===== Admin Login =====\n";
-        cout<<"Invalid username or password.\n";
-        system("pause");
+
+    while(attempts < 3){
+        cout<<"Password: ";
+        getline(cin, input_password);
+        if(input_username == username && input_password == password){
+            system("cls");
+            cout<<"===== Admin Login =====\n";
+            cout<<"Login successful!\n";
+            system("pause");
+            return true;
+        } 
+        attempts++;
+        if(attempts < 3) cout<<"Invalid password. "<<3 - attempts<<" attempt(s) remaining.\n";
     }
-    return accepted;
+
+    system("cls");
+    cout<<"===== Admin Login =====\n";
+    cout<<"Too many failed attempts. Access Denied.\n";
+    system("pause");
+    return false; 
 }
 
 
 int student_login(){
     system("cls");
     int student_id;
+    int attempts = 0;
     string password;
     cout<<"===== Student Login =====\n";
     cout<<"Enter Student ID: ";
     cin>>student_id;
-    cin.ignore(); // Ignore the newline character left in the buffer
-    cout<<"Enter password: ";
-    getline(cin, password);
+    cin.ignore();
 
-    for(int i = 0; i < student_count; i++){
-        if(students[i].studentID == student_id && students[i].password == password){
-            system("cls");
-            cout<<"===== Student Login =====\n";
-            cout<<"Login successful!\n";
-            cout<<"Welcome, "<<students[i].name<<"!\n";
-            system("pause");
-            return i;
+    while(attempts < 3){
+        cout<<"Enter password: ";
+        getline(cin, password);
+
+        for(int i = 0; i < student_count; i++){
+            if(students[i].studentID == student_id && students[i].password == password){
+                system("cls");
+                cout<<"===== Student Login =====\n";
+                cout<<"Login successful!\n";
+                cout<<"Welcome, "<<students[i].name<<"!\n";
+                system("pause");
+                return i;
+            }
         }
-    }
+        attempts++;
+        if(attempts<3) cout<<"Invalid password. "<<3 - attempts<<" attempt(s) left.\n";
 
+        
+    }
     system("cls");
     cout<<"===== Student Login =====\n";
-    cout<<"Invalid student ID or password.\n";
+    cout<<"Too many failed attempts. Access denied.\n";
     system("pause");
     return -1;
 }
@@ -113,28 +129,32 @@ int student_login(){
 int lecturer_login(){
     system("cls");
     int lecturer_id;
+    int attempts = 0;
     string password;
     cout<<"===== Lecturer Login =====\n";
     cout<<"Enter Lecturer ID: ";
     cin>>lecturer_id;
     cin.ignore();
-    cout<<"Enter password: ";
-    getline(cin, password);
+    while(attempts < 3){
+        cout<<"Enter password: ";
+        getline(cin, password);
 
-    for(int i = 0; i < lecturer_count; i++){
-        if(lecturer[i].lecturerID == lecturer_id && lecturer[i].password == password){
-            system("cls");
-            cout<<"===== Lecturer Login =====\n";
-            cout<<"Login successful!\n";
-            cout<<"Welcome, "<<lecturer[i].name<<"!\n";
-            system("pause");
-            return i;
+        for(int i = 0; i < lecturer_count; i++){
+            if(lecturer[i].lecturerID == lecturer_id && lecturer[i].password == password){
+                system("cls");
+                cout<<"===== Lecturer Login =====\n";
+                cout<<"Login successful!\n";
+                cout<<"Welcome, "<<lecturer[i].name<<"!\n";
+                system("pause");
+                return i;
+            }
         }
+        attempts++;
+        if (attempts < 3) cout<<"Invalid password. "<<3 - attempts<<" attempt(s) remaining.\n";
     }
-
     system("cls");
     cout<<"===== Lecturer Login =====\n";
-    cout<<"Invalid lecturer ID or password.\n";
+    cout<<"Too many failed attempts. Access denied.\n";
     system("pause");
     return -1;
 }

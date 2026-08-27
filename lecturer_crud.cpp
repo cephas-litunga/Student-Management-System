@@ -1,26 +1,16 @@
 #include "globals.h"
+int next_lecturer_id = 1000;
 
 // ----------------- Lecuterer Management Functions ----------------- 
 void register_lecturer(){
     system("cls");
     cout<<"===== Registering New Lecturer =====\n";
 
-    cout<<"Enter Full Name: ";
-    getline(cin, lecturer[lecturer_count].name);
-
-    cout<<"Enter Department: ";
-    getline(cin, lecturer[lecturer_count].department);
-
-    cout<<"Enter Email: ";
-    getline(cin, lecturer[lecturer_count].email);
-
-    cout<<"Enter Phone Number: ";
-    cin>>lecturer[lecturer_count].phone_number;
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout<<"Create Lecturer Password: ";
-    getline(cin, lecturer[lecturer_count].password);
+    lecturer[lecturer_count].name = validateString("Enter Full Name: ", 50, true);
+    lecturer[lecturer_count].department = validateString("Enter Department: ", 50, true);
+    lecturer[lecturer_count].email = validateEmail("Enter Email: ");
+    lecturer[lecturer_count].phone_number = validatePhone("Enter Phone Number: ");
+    lecturer[lecturer_count].password = validatePassword("Create Lecturer Password: ");
 
     lecturer[lecturer_count].lecturerID = next_lecturer_id++;
     lecturer_count++;
@@ -94,15 +84,10 @@ void edit_lecturer(){
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     for(int i = 0; i < lecturer_count; i++){
         if(search_id == lecturer[i].lecturerID){
-            cout<<"Enter Full Name: ";
-            getline(cin, lecturer[i].name);
-            cout<<"Enter Department: ";
-            getline(cin, lecturer[i].department);
-            cout<<"Enter Email: ";
-            getline(cin, lecturer[i].email);
-            cout<<"Enter Phone Number: ";
-            cin>>lecturer[i].phone_number;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            lecturer[lecturer_count].name = validateString("Enter Full Name: ", 50, true);
+            lecturer[lecturer_count].department = validateString("Enter Department: ", 50, true);
+            lecturer[lecturer_count].email = validateEmail("Enter Email: ");
+            lecturer[lecturer_count].phone_number = validatePhone("Enter Phone Number: ");
             cout<<"Lecturer Details updated successfully!\n";
             found = true;
             break;
@@ -194,4 +179,3 @@ void load_lecturers(){
         cout<<"No saved lecturers found!\n";
     }
 }
-

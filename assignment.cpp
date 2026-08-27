@@ -1,6 +1,5 @@
 #include "globals.h"
 
-int next_lecturer_id = 1000;
 
 // Lecturer assignment functions
 void assign_lecturer(){

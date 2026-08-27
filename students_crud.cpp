@@ -6,30 +6,13 @@ void add_student(){
     system("cls");
     cout<<"===== Adding New Student =====\n";
 
-    cout<<"Enter Full Name: ";
-    getline(cin, students[student_count].name);
-
-    cout<<"Enter Age: ";
-    cin>>students[student_count].age;
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout<<"Enter Gender: ";
-    cin>>students[student_count].gender;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout<<"Enter Program: ";
-    getline(cin, students[student_count].program);
-
-    cout<<"Enter Email: ";
-    getline(cin, students[student_count].email);
-
-    cout<<"Enter Phone Number: ";
-    cin>>students[student_count].phone_number;
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout<<"Create Student Password: ";
-    getline(cin, students[student_count].password);
+    students[student_count].name = validateString("Enter Full Name: ", 50, true);
+    students[student_count].age = validateAge("Enter Age: ");
+    students[student_count].gender = validateGender("Enter Gender: ");
+    students[student_count].program = validateString("Enter Program: ", 50, true);
+    students[student_count].email = validateEmail("Enter Email: ");
+    students[student_count].phone_number = validatePhone("Enter Phone Number: ");
+    students[student_count].password = validatePassword("Create Student Password: ");
 
     students[student_count].year_of_study = 1; // Default year of study for new students
     if(student_count == 0){
@@ -41,6 +24,7 @@ void add_student(){
     cout<<"Student added successfully!\n";
     cout<<"Student ID: "<<students[student_count - 1].studentID<<endl;
 
+    save_students();
     system("pause");
 }
 
@@ -106,111 +90,27 @@ void edit_student_details(){
     cout<<"Enter student ID: ";
     cin>>search_id;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    system("cls");
     for(int i = 0; i < student_count; i++){
         if(search_id == students[i].studentID){
-            cout<<"Enter Full Name: ";
-            getline(cin, students[i].name);
-            cout<<"Enter Age: ";
-            cin>>students[i].age;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout<<"Enter Program: ";
-            getline(cin, students[i].program);
-            cout<<"Enter Email: ";
-            getline(cin, students[i].email);
-            cout<<"Enter Phone Number: ";
-            cin>>students[i].phone_number;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            students[i].name = validateString("Enter Full Name: ", 50, true);
+            students[i].age = validateAge("Enter Age: ");
+            students[i].program = validateString("Enter Program: ", 50, true);
+            students[i].email = validateEmail("Enter Email: ");
+            students[i].phone_number = validatePhone("Enter Phone Number: ");
             cout<<"Student Details updated successfully!\n";
             found = true;
             break;
         }
     }
+
+    save_students();
+    
     if(!found){
         cout<<"Student "<<search_id<<" not found\n";
     }
     system("pause");
 }
-
-
-void view_student_grades(){
-    system("cls");
-    if(student_count == 0){
-        cout<<"No students found!\n";
-        system("pause");
-        return;
-    }
-    int search_id;
-    cout<<"Enter student ID to view grades: ";
-    cin>>search_id;
-    // cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    bool found = false;
-    for(int i = 0; i < student_count; i++){
-        if(search_id == students[i].studentID){
-            found = true;
-            string subjects[6] = {"MA110", "LA111", "PH110", "CS120", "CS130", "CS150"};
-            cout<<"\n===== Grades for "<<students[i].name<<" ====="<<endl;
-            float total = 0;
-            
-            for(int j = 0; j < 6; j++){
-                cout<<subjects[j]<<": "<<students[i].grades[j]<<endl;
-                total += students[i].grades[j];
-            }
-            
-            float average = total / 6;
-            cout<<"\nTotal: "<<total<<endl;
-            cout<<"Average: "<<average<<endl;
-            cout<<"_____________________________________\n";
-            break;
-        }
-    }
-    
-    if(!found){
-        cout<<"Student "<<search_id<<" not found!\n";
-    }
-    system("pause");
-}
-
-void edit_student_grades(){
-    system("cls");
-    if(student_count == 0){
-        cout<<"No students found!\n";
-        system("pause");
-        return;
-    }
-    cout<<"\n===== Edit Student Grades =====\n";
-    int search_id;
-    cout<<"Enter student ID to edit grades: ";
-    cin>>search_id;
-
-    bool found = false;
-    for(int i = 0; i < student_count; i++){
-        if(search_id == students[i].studentID){
-            found = true;
-            cout<<"\n===== Entering Grades for "<<students[i].name<<" ====="<<endl;
-            cout<<"Enter grades for 6 subjects (0-100):\n";
-            string subjects[6] = {"MA110", "LA111", "PH110", "CS120", "CS130", "CS150"};
-            
-            for(int j = 0; j < 6; j++){
-                cout<<subjects[j]<<" (0-100): ";
-                while(!(cin>>students[i].grades[j]) || students[i].grades[j] < 0 || students[i].grades[j] > 100){
-                    cin.clear();
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout<<"Invalid input! Enter a grade between 0-100: ";
-                }
-            }
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout<<"\nGrades updated successfully!\n";
-            break;
-        }
-    }
-    
-    if(!found){
-        cout<<"Student "<<search_id<<" not found!\n";
-    }
-    system("pause");
-}
-
 
 void delete_student(){
     system("cls");
@@ -249,6 +149,9 @@ void delete_student(){
             break;
         }
     }
+
+    save_students();
+
     if(!found){
         cout<<"Student "<<search_id<<" not found\n";
     }
@@ -263,9 +166,6 @@ void save_students(){
             <<students[i].name<<"|"<<students[i].age<<"|"<<students[i].program
             <<"|"<<students[i].email<<"|"<<students[i].phone_number<<"|"
             <<students[i].year_of_study<<"|" << students[i].gender;
-            for(int j = 0; j < 6; j++){
-                outFile<<"|"<<students[i].grades[j];
-            }
             outFile<<"\n";
         }
         outFile.close();
@@ -276,55 +176,41 @@ void save_students(){
 
 void load_students(){
     ifstream inFile("students.txt");
-    if(inFile.is_open()){
-        student_count = 0;
-        next_student_id = 260000;
-        string id_str;
-        while(getline(inFile, id_str, '|')){
-            if(student_count >= 100) break;
-            string password_str;
-            if(!getline(inFile, password_str, '|')) break;
-            if(!getline(inFile, students[student_count].name, '|')) break;
-            string age_str;
-            if(!getline(inFile, age_str, '|')) break;
-            if(!getline(inFile, students[student_count].program, '|')) break;
-            if(!getline(inFile, students[student_count].email, '|')) break;
-            string phone_str;
-            if(!getline(inFile, phone_str, '|')) break;
-            string year_str;
-            if(!getline(inFile, year_str, '|')) break;
-            string gender_str;
-            if(!getline(inFile, gender_str, '|')) break;
-            try {
-                students[student_count].age = stoi(age_str);
-                students[student_count].studentID = stoi(id_str);
-                students[student_count].phone_number = stoi(phone_str);
-                students[student_count].year_of_study = stoi(year_str);
-                students[student_count].gender = gender_str[0];
-            } catch(const std::exception&){
-                continue;
-            }
-            students[student_count].password = password_str;
-            for(int j = 0; j < 6; j++){
-                string grade_str;
-                if(j < 5){
-                    if(!getline(inFile, grade_str, '|')) break;
-                } else {
-                    if(!getline(inFile, grade_str)) break;
-                }
-                try {
-                    students[student_count].grades[j] = stof(grade_str);
-                } catch(const std::exception&){
-                    students[student_count].grades[j] = 0.0f;
-                }
-            }
-            if(students[student_count].studentID >= next_student_id){
-                next_student_id = students[student_count].studentID + 1;
-            }
-            student_count++;
-        }
-        inFile.close();
-    } else {
+    if(!inFile.is_open()){
         cout<<"No saved students found!\n";
+        return;
     }
+    student_count = 0;
+    next_student_id = 260000;
+    string line;
+    while(getline(inFile, line) && student_count < 100){
+        if(line.empty()) continue;
+        if(!line.empty() && line.back() == '\r') line.pop_back();
+
+        size_t p[8];
+        p[0] = line.find('|');
+        for(int i = 1; i < 8; i++){
+            p[i] = (p[i-1] == string::npos) ? string::npos : line.find('|', p[i-1] + 1);
+        }
+        if(p[7] == string::npos) continue;
+
+        try {
+            students[student_count].studentID     = stoi(line.substr(0, p[0]));
+            students[student_count].password      = line.substr(p[0]+1, p[1]-p[0]-1);
+            students[student_count].name          = line.substr(p[1]+1, p[2]-p[1]-1);
+            students[student_count].age           = stoi(line.substr(p[2]+1, p[3]-p[2]-1));
+            students[student_count].program       = line.substr(p[3]+1, p[4]-p[3]-1);
+            students[student_count].email         = line.substr(p[4]+1, p[5]-p[4]-1);
+            students[student_count].phone_number  = line.substr(p[5]+1, p[6]-p[5]-1);
+            students[student_count].year_of_study = stoi(line.substr(p[6]+1, p[7]-p[6]-1));
+            string gender_str = line.substr(p[7]+1);
+            if(!gender_str.empty()) students[student_count].gender = gender_str[0];
+            if(students[student_count].studentID >= next_student_id)
+                next_student_id = students[student_count].studentID + 1;
+            student_count++;
+        } catch(...){
+            continue;
+        }
+    }
+    inFile.close();
 }

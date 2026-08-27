@@ -32,9 +32,9 @@ void register_course(int student_index){
         return;
     }
 
-    cout<<"Enter Course Code: ";
+    
     string course_code;
-    getline(cin, course_code);
+    course_code = validateString("Enter Course Code: ");
 
     // Find the course
     int course_index = -1;

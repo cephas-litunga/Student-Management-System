@@ -5,7 +5,9 @@
 #include "auth.h"
 #include <limits>
 #include <string>
+#include "auth.h"
 #include "menus.h"
+#include "validation.h"
 #include "admin_logic.h"
 #include "students.h"
 #include "courses.h"
@@ -14,23 +16,18 @@
 #include "assignment.h"
 #include "lecturer_crud.h"
 #include "registration.h"
+#include "results.h"
 #include <fstream>
 #include <unistd.h> 
 using namespace std;
 
 class Student{
 public:
-    string name, program, email, password;
-    int age, phone_number, year_of_study;
+    string name, program, email, password, phone_number;
+    int age, year_of_study;
     int studentID = 260001;
     char gender;
-    float grades[6];  
-
-    Student() {
-        for(int i = 0; i < 6; i++) {
-            grades[i] = 0.0;
-        }
-    }
+    Student() {}
     
 };
 
@@ -39,6 +36,7 @@ public:
     string course_code, course_name, course_program;
     int year_offered;
     int lecturerID = -1;
+    bool has_assignement = false;
 
 };
 
@@ -52,7 +50,23 @@ class Registration{
 public:
     int studentID;
     string course_code;
+
 };
+
+class Results{
+public: 
+    int studentID;
+    string course_code;
+    float test1 = 0.0;
+    float test2 = 0.0;
+    float assignment = 0.0;
+    float continousAssessment = 0.0;
+    float finalExam = 0.0;
+    float finalMark = 0.0;
+    string finalGrade = "";
+};
+
+
 
 extern Student students[100];
 extern int student_count;
@@ -64,5 +78,7 @@ extern int lecturer_count;
 extern int next_lecturer_id;
 extern Registration registrations[500];
 extern int registration_count;
+extern Results results[500];
+extern int result_count;
 
 #endif

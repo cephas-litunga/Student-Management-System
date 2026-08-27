@@ -1,112 +1,175 @@
 # Changelog
 
-All notable changes to this project are documented here.
+All notable changes to the Student Information System are documented here.
 
 ---
 
-## [v0.9.0] - Student Course Registration
+## [v1.0.0] — Continuous Assessment & Results Management
 
 ### Added
-- Student course registration module
-- View available courses
-- Register for courses
-- View registered courses
-- Drop registered courses
-- Registration persistence
-- Registration loading on startup
+
+- Lecturer result management.
+- Test 1 mark entry.
+- Test 2 mark entry.
+- Assignment/quiz contribution where applicable.
+- Automatic Continuous Assessment calculation.
+- Final examination mark entry.
+- Automatic final mark calculation.
+- Automatic grade calculation.
+- Student result viewing.
+- Result persistence.
+- Three-attempt authentication lockout.
+
+### Assessment System
+
+- Test 1 is calculated out of 20.
+- Test 2 is calculated out of 20.
+- Continuous Assessment is calculated out of 40.
+- Final examination is entered out of 100.
+- Final examination contributes 60% to the final grade.
+- Final marks are calculated automatically.
+- Grades are calculated automatically.
 
 ### Validation
-- Program eligibility checks
-- Year of study validation
-- Duplicate registration prevention
 
-### Improved
-- Connected Students and Courses through a registration system
-- Expanded the academic workflow of the system
+- Added validation for student creation and editing.
+- Added validation for lecturer creation and editing.
+- Added validation for course creation and editing.
+- Added validation for course registration.
+- Added validation for academic results.
+- Added validation for authentication.
 
----
+### Architecture Improvements
 
-## [v0.8.0] - Lecturer-Course Assignment
+- Created `validation.h` to centralize validation helpers.
+- Moved `validateInput()` from `menus.h` to `validation.h`.
+- Changed `Student::phone_number` from `int` to `string`.
+- Reworked `load_students()` to use line-by-line parsing.
+- Fixed the student data loading/wipe issue.
+- Moved `checkDuplicateCourse()` into `courses.cpp` as a static helper.
 
-### Added
-- Lecturer assignment module
-- Assign lecturers to courses
-- View lecturer assignments
-- View course lecturer
-- Remove lecturer assignments
+### Testing
 
-### Improved
-- Connected Lecturer and Course modules
-
----
-
-## [v0.7.0] - Lecturer Management
-
-### Added
-- Lecturer accounts
-- Lecturer CRUD operations
-- Lecturer login
-- Lecturer profile management
-- Password management
-- File persistence
+- Completed feature testing.
+- Completed input validation testing.
+- Completed authentication testing.
+- Completed persistence testing.
+- Completed regression testing across existing modules.
 
 ---
 
-## [v0.6.0] - Course Management
+## [v0.9.0] — Student Course Registration
 
 ### Added
-- Course CRUD operations
-- File persistence for courses
+
+- Student course registration.
+- Available course viewing.
+- Registered course viewing.
+- Course dropping.
+- Programme-based course validation.
+- Year-of-study validation.
+- Duplicate registration prevention.
+- Maximum course registration limit.
+- Registration persistence.
 
 ---
 
-## [v0.5.0] - Student Profile Management
+## [v0.8.0] — Lecturer-Course Assignment
 
 ### Added
-- Student email
-- Phone number
-- Year of study
-- Student profile
-- Password management
+
+- Lecturer-course assignment.
+- View lecturer's courses.
+- View course lecturer.
+- Remove lecturer assignments.
 
 ---
 
-## [v0.4.0] - Authentication
+## [v0.7.0] — Lecturer Management
 
 ### Added
-- Login system
-- Administrator accounts
-- Student accounts
-- Lecturer accounts
-- Role-based access
+
+- Lecturer registration.
+- Lecturer viewing.
+- Lecturer searching.
+- Lecturer editing.
+- Lecturer deletion.
+- Lecturer authentication.
+- Lecturer portal.
+- Lecturer profile management.
+- Lecturer password management.
 
 ---
 
-## [v0.3.0] - File Persistence
+## [v0.6.0] — Course Management
 
 ### Added
-- Save student records
-- Load student records
-- Automatic ID continuation
+
+- Course creation.
+- Course viewing.
+- Course searching.
+- Course editing.
+- Course deletion.
+- Course persistence.
+- Course programme information.
+- Course year information.
+- Lecturer assignment field.
 
 ---
 
-## [v0.2.0] - Student Improvements
+## [v0.5.0] — Student Management Improvements
 
 ### Added
-- Student IDs
-- Edit student
-- Delete student
-- Grade recording
-- Grade viewing
-- Average calculation
-- Input validation
+
+- Student profile information.
+- Student year of study.
+- Student programme.
+- Student contact information.
+- Improved student management.
 
 ---
 
-## [v0.1.0] - Initial Release
+## [v0.4.0] — Student Portal
 
 ### Added
-- Register students
-- Search students
-- View students
+
+- Student details viewing.
+- Student information updates.
+- Password changes.
+- Student grade viewing.
+
+---
+
+## [v0.3.0] — Authentication & Role-Based Access
+
+### Added
+
+- Administrator authentication.
+- Student authentication.
+- Role-based menus.
+- Role-based access.
+
+---
+
+## [v0.2.0] — Student Management
+
+### Added
+
+- Student records.
+- Student creation.
+- Student viewing.
+- Student searching.
+- Student editing.
+- Student deletion.
+- Student data persistence.
+
+---
+
+## [v0.1.0] — Project Foundation
+
+### Added
+
+- Initial C++ project.
+- Basic project structure.
+- Student class.
+- Initial application flow.

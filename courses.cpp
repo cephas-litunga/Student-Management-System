@@ -1,20 +1,24 @@
 #include "globals.h"
 
+// validate duplicate course helper function
+static inline bool checkDuplicateCourse(const string& course_code, int exclude_index = -1){
+    for(int i = 0; i< course_count; i++){
+        if(i == exclude_index) continue;
+        if(course[i].course_code == course_code) return true;
+    }
+    return false;
+}
+
 Course course[100];
 int course_count = 0;
 
 void add_course(){
     system("cls");
     cout<<"============== Adding New Course ============\n";
-    cout<<"Enter Course Program: ";
-    getline(cin, course[course_count].course_program);
-    cout<<"Enter Course Name: ";
-    getline(cin, course[course_count].course_name);
-    cout<<"Enter Course Code: ";
-    getline(cin, course[course_count].course_code);
-    cout<<"Enter Course Year: ";
-    cin>>course[course_count].year_offered;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    course[course_count].course_program = validateString("Enter Course Program: ", 50, true);
+    course[course_count].course_name = validateString("Enter Course Name: ", 50, true);
+    course[course_count].course_code = validateString("Enter Course Code: ");
+    course[course_count].year_offered = validateYear("Enter Course Year: ", 1, 4);
     course_count++;
     cout<<"Course added successfully!\n";
     save_courses();
@@ -73,15 +77,10 @@ void edit_course(){
     getline(cin, searched_course);
     for(int i = 0; i < course_count; i++){
         if(searched_course == course[i].course_code){
-            cout<<"Enter Course Program: ";
-            getline(cin, course[i].course_program);
-            cout<<"Enter Course Name: ";
-            getline(cin, course[i].course_name);
-            cout<<"Enter Course Code: ";
-            getline(cin, course[i].course_code);
-            cout<<"Enter Course Year: ";
-            cin>>course[i].year_offered;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            course[i].course_program = validateString("Enter Course Program: ", 50, true);
+            course[i].course_name = validateString("Enter Course Name: ", 50, true);
+            course[i].course_code = validateString("Enter Course Code: ");
+            course[i].year_offered = validateYear("Enter Course Year: ");
             found = true;
             cout<<"Course Edited Successfully\n";
         }
@@ -141,7 +140,8 @@ void save_courses(){
     if(outFile.is_open()){
         for(int i = 0; i < course_count; i++){
             outFile<<course[i].course_code<<"|"<<course[i].course_name<<"|"
-            <<course[i].course_program<<"|"<<course[i].year_offered<<"|"<<course[i].lecturerID;
+            <<course[i].course_program<<"|"<<course[i].year_offered
+            <<"|"<<course[i].lecturerID<<"|"<<course[i].has_assignement;
             outFile<<"\n";
         }
         outFile.close();
@@ -163,6 +163,7 @@ void load_courses(){
         size_t second = (first  == string::npos) ? string::npos : line.find('|', first  + 1);
         size_t third  = (second == string::npos) ? string::npos : line.find('|', second + 1);
         size_t fourth = (third  == string::npos) ? string::npos : line.find('|', third  + 1);
+        size_t fifth = (fourth == string::npos) ? string::npos : line.find('|', fourth + 1);
 
         if(first == string::npos || second == string::npos || 
            third == string::npos || fourth == string::npos) continue;
@@ -172,7 +173,8 @@ void load_courses(){
         course[course_count].course_program = line.substr(second + 1, third  - second - 1);
 
         string yearText       = line.substr(third  + 1, fourth - third  - 1);
-        string lecturerIDText = line.substr(fourth + 1);
+        string lecturerIDText = line.substr(fourth  + 1, fifth == string::npos ? string::npos : fifth - fourth - 1);
+        string hasAssignmentText = (fifth == string::npos) ? "0" : line.substr(fifth + 1);
 
         try {
             course[course_count].year_offered = stoi(yearText);

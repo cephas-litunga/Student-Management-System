@@ -1,24 +1,12 @@
 #ifndef MENUS_H
 #define MENUS_H
 
+#include "validation.h"
 #include <iostream>
+// #include "globals.h"
 #include <limits>
 using namespace std;
 
-static inline int validateInput(int min, int max) {
-    int input;
-    while (true) {
-        cin >> input;
-        if (cin.fail() || input < min || input > max) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Please enter a number between " << min << " and " << max << ": ";
-        } else {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            return input;
-        }
-    }
-}
 
 static inline int admin_menu(){
     int acm_option;
@@ -64,9 +52,11 @@ static inline int lecturer_menu(){
     cout<<"1. View Details\n";
     cout<<"2. Update info\n";
     cout<<"3. Change Password\n";
-    cout<<"4. Logout\n";
+    cout<<"4. View Assigned Courses\n";
+    cout<<"5. Manage Results\n";
+    cout<<"6. Logout\n";
     cout<<"Enter option: ";
-    lm_option = validateInput(1,4);
+    lm_option = validateInput(1,6);
     return lm_option;
 }
 
@@ -74,14 +64,16 @@ static inline int student_menu(){
     int sm_option;
     system("cls");
     cout<<"============ Student Portal Menu =================\n";
-    cout<<"1. View Grades\n";
-    cout<<"2. View Details\n";
-    cout<<"3. Update info\n";
-    cout<<"4. Change Password\n";
-    cout<<"5. Course Registration\n";
-    cout<<"6. Logout\n";
+    // cout<<"1. View Grades\n";
+    cout<<"1. View Details\n";
+    cout<<"2. View CA results\n";
+    cout<<"3. View Final results\n";
+    cout<<"4. Update info\n";
+    cout<<"5. Change Password\n";
+    cout<<"6. Course Registration\n";
+    cout<<"7. Logout\n";
     cout<<"Enter option: ";
-    sm_option = validateInput(1,6);
+    sm_option = validateInput(1,7);
     return sm_option;
 }
 
@@ -107,13 +99,13 @@ static inline int student_management_menu(){
     cout<<"1. Add Student\n";
     cout<<"2. Search Student\n";
     cout<<"3. View all students\n";
-    cout<<"4. Edit Student Grades\n";
-    cout<<"5. Edit Student Details\n";
-    cout<<"6. View Student Grades\n";
-    cout<<"7. Delete Student\n";
-    cout<<"8. Back\n";
+    // cout<<"4. Edit Student Grades\n";
+    cout<<"4. Edit Student Details\n";
+    // cout<<"6. View Student Grades\n";
+    cout<<"5. Delete Student\n";
+    cout<<"6. Back\n";
     cout<<"Enter option: ";
-    am_option = validateInput(1,8);
+    am_option = validateInput(1,6);
     return am_option;
 }
 
@@ -159,5 +151,19 @@ static inline int registration_menu(){
     r_option = validateInput(1,5);
     return r_option;
 }
+
+static inline int course_options_menu(){
+    int co_option;
+    system("cls");
+    cout<<"============ Course Options =================\n";
+    cout<<"1. Toggle Assignements\n";
+    cout<<"2. Enter CA Marks\n";
+    cout<<"3. Enter Final Exam Marks\n";
+    cout<<"4. Back\n";
+    cout<<"Enter option: ";
+    co_option = validateInput(1,4);
+    return co_option;
+}
+
 
 #endif

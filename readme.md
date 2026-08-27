@@ -1,147 +1,172 @@
-# Student Management System
+# Student Information System
 
-A console-based Student Management System built in C++ as a personal project to strengthen my understanding of software development, program structure, and problem-solving.
+A console-based Student Information System developed in C++ and modelled around the academic workflow of Copperbelt University (CBU).
 
-The project started as a simple CRUD application and is gradually evolving into a university-style Student Information System with authentication, role-based access, persistent storage, and student self-service features.
+The project is being developed incrementally, with each version introducing new functionality and improvements while applying concepts learned through Computer Science studies.
 
----
+## Current Version
+
+**v1.0.0 — Continuous Assessment & Results Management**
 
 ## Features
 
 ### Authentication
+
 - Administrator login
 - Student login
 - Lecturer login
+- Role-based access
 - Password management
-- Role-based access control
+- Three-attempt login lockout
 
 ### Student Management
-- Register students
+
+Administrators can:
+
+- Add students
 - Search students
 - View all students
 - Edit student details
+- Edit student grades
+- View student grades
 - Delete students
-- Student profile management
-- Grade management
 
-### Course Management
-- Add courses
-- Search courses
-- View all courses
-- Edit courses
-- Delete courses
+Students can:
 
-### Lecturer Management
-- Register lecturers
-- Search lecturers
-- View all lecturers
-- Edit lecturer details
-- Delete lecturers
-- Lecturer profile management
-
-### Lecturer-Course Assignment
-- Assign lecturers to courses
-- View lecturer assignments
-- View course lecturer
-- Remove lecturer assignments
-
-### Student Course Registration
+- View their details
+- Update their information
+- Change their password
 - View available courses
 - Register for courses
 - View registered courses
-- Drop registered courses
-- Program eligibility validation
-- Year of study validation
-- Duplicate registration
+- Drop courses
+- View their results
 
-### Data Persistence
-- Save all data to text files
-- Load all data when the application starts
+### Course Management
 
----
+Administrators can:
 
-## Technologies Used
+- Add courses
+- View courses
+- Search courses
+- Edit courses
+- Delete courses
 
-* C++
-* Object-Oriented Programming (OOP)
-* Arrays
-* Functions
-* Multi-file project structure
-* Command Line Interface (CLI)
+Courses contain information such as:
 
---- 
+- Course code
+- Course name
+- Programme
+- Year offered
+- Lecturer assignment
 
-## What I Learned
+### Lecturer Management
 
-This project has helped me gain practical experience with:
+Administrators can:
 
-* Organizing code across multiple source files
-* Header files and linking
-* Managing program state
-* User input handling and validation
-* Searching and updating records
-* Debugging and problem-solving
-* Structuring larger programs beyond a single source file
+- Register lecturers
+- Search lecturers
+- View lecturers
+- Edit lecturer details
+- Delete lecturers
 
---- 
+Lecturers can:
 
-## Current Project Structure
+- View their details
+- Update their information
+- Change their password
+- View their assigned courses
+- Manage student results
 
-```
-main.cpp
+### Lecturer-Course Assignment
 
-globals.h
+Administrators can:
 
-auth.cpp
-auth.h
+- Assign lecturers to courses
+- View a lecturer's courses
+- View the lecturer assigned to a course
+- Remove lecturer assignments
 
-menus.h
+### Course Registration
 
-admin_logic.cpp
-admin_logic.h
+Students can:
 
-students.cpp
-students.h
-students_crud.cpp
+- View available courses
+- Register for courses
+- View registered courses
+- Drop courses
 
-courses.cpp
-courses.h
+Registration checks the student's:
 
-lecturer.cpp
-lecturer.h
-lecturer_crud.cpp
+- Programme
+- Year of study
+- Existing registrations
+- Maximum course limit
 
-assignment.cpp
+### Results Management
 
-registration.cpp
-registration.h
-```
----
+Lecturers can enter and manage student assessment results.
 
-## Roadmap
-- [x] Student CRUD 
-- [x] Grade Management
-- [x] File persistence
-- [x] Authentication system
-- [x] Student accounts
-- [x] Admin accounts
-- [x] Role-based priviledges
-- [x] Course Management
-- [x] Lecturer Management
-- [x] Lecturer-Course Assignment
-- [x] Course Registration 
-- [ ] Academic Reports
-- [ ] SQLite Database
-- [ ] GUI Application
-- [ ] Web Version
+The system supports:
 
----
+- Test 1
+- Test 2
+- Assignment/quiz contribution where applicable
+- Continuous Assessment
+- Final examination
+- Final mark
+- Grade calculation
 
-## Purpose 
-This project is part of my journey toward becoming a software engineer. Rather than focusing only on course wrok, i'm buildig increasingly complex software to strengthen my understanding of software design, problem-solving, and application developement.
+The implemented assessment structure uses:
+
+- CA out of 40
+- Final examination out of 100
+- Final examination contributing 60% of the final grade
+
+### Validation
+
+Input validation is implemented across the major modules, including:
+
+- Student management
+- Lecturer management
+- Course management
+- Course registration
+- Results
+- Authentication
+
+Validation helpers are centralized in `validation.h`.
+
+## Data Storage
+
+The system currently uses file-based persistence.
+
+Data is stored in:
+
+- `students.txt`
+- `courses.txt`
+- `lecturers.txt`
+- `registrations.txt`
+- `results.txt`
+
+## Technologies
+
+- C++
+- Object-Oriented Programming
+- File Handling
+- Git
+- GitHub
+
+## Development
+
+The project is developed incrementally through versioned releases.
+
+Each version is tested before moving on to the next stage.
+
+The long-term goal is to use this project as a foundation for developing a more complete Student Information System, including a future web-based version.
 
 ## Author
 
-**Cephas Litunga**
+**Niza**
 
-Aspiring Software Engineer | Computer Science Student
+Computer Science Student  
+Copperbelt University

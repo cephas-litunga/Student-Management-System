@@ -8,5 +8,4 @@ void edit_lecturer();
 void delete_lecturer();
 void save_lecturers();
 void load_lecturers();
-
 #endif

@@ -14,13 +14,35 @@ void view_details(int index){
 
 void view_grades(int index){
     system("cls");
-    cout<<"==================== Student Grades ====================\n";
-    string subjects[6] = {"MA110", "LA111", "PH110", "CS120", "CS130", "CS150"};
-    cout<<"Student Grades:\n";
-    for(int i = 0; i < 6; i++){
-        cout<<subjects[i]<<": "<<students[index].grades[i]<<endl;
+    cout<<"==================== My Grades ====================\n";
+    bool found = false;
+    for(int i = 0; i < result_count; i++){
+        if(results[i].studentID == students[index].studentID){
+            if(results[i].finalGrade != ""){
+                cout<<results[i].course_code<<" - "<<results[i].finalGrade<<endl;
+                found = true;
+            }
+        }
     }
+
+    if(!found) cout<<"No grades available yet.\n";
     system("pause");
+}
+
+
+void view_ca(int index){
+    system("cls");
+    cout<<"==================== My CA ====================\n";
+    bool found = false;
+    for(int i = 0; i < result_count; i++){
+        if(results[i].studentID == students[index].studentID){
+            cout<<results[i].course_code<<" -  "<<results[i].continousAssessment<<endl;
+            found = true;
+        }
+    }
+    if(!found) cout<<"No CA results available yet.\n";
+    system("pause");
+
 }
 
 void change_password(int index){
@@ -36,8 +58,7 @@ void change_password(int index){
         cin>>current_password;
     }
 
-    cout<<"Enter new password: ";
-    cin>>new_password;
+    new_password = validatePassword("Enter new password: ");
     students[index].password = new_password;
     cout<<"Password changed successfully!\n";
     system("pause");
@@ -54,14 +75,13 @@ void update_info(int index){
     cin>>option;
     
     if(option == 1){
-        cout<<"Enter new phone number: ";
-        cin>>students[index].phone_number;
+        students[index].phone_number = validatePhone("Enter new phone number: ");
         cout<<"Phone number updated successfully!\n";
+        system("pause");
     } else if(option == 2){
-        cout<<"Enter new email: ";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        getline(cin, students[index].email);
+        students[index].email = validateEmail("Enter new email: ");
         cout<<"Email updated successfully!\n";
+        system("pause");
     } else if(option == 3){
         change_password(index);
     } else {
@@ -82,7 +102,7 @@ void student_register_course(int index){
             case 2: register_course(index); break;
             case 3: view_registered_courses(index); break;
             case 4: drop_course(index); break;
-            case 5: cout<<"Returning to previous menu...\n"; system("pause"); 
+            case 5: cout<<"Returning to previous menu...\n"; system("pause"); return;
             default: cout<<"Invalid option! Please try again.\n"; system("pause"); break;
         }
     }

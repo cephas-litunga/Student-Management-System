@@ -1,1 +1,2 @@
-260001|test123|Cephas Simbaya|19|Computer Science|cslitunga2gmail.com|977803580|1|M|0|0|0|0|0|0
+260001|test123|Cephas Simbaya|19|Computer Science|cslitunga2@gmail.com|0977803580|1|M
+260002|test12|Chileleko Bukuzu|24|Mining Engineering |bukuzu@gmail.com|0964341234|1|M
