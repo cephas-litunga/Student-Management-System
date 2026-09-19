@@ -15,6 +15,7 @@ void update_lecturer_info(int lecturer_index){
     cout<<"==================== Update Lecturer Info ====================\n";
     lecturer[lecturer_index].email = validateEmail("Enter Email: ");
     lecturer[lecturer_index].phone_number = validatePhone("Enter Phone Number: ");
+    save_lecturers();
     cout<<"Lecturer Details updated successfully!\n";
     system("pause");
 }
@@ -32,6 +33,7 @@ void change_lecturer_password(int lecturer_index){
         getline(cin, current_password);
     }
     lecturer[lecturer_index].password = validatePassword("Enter new password");
+    save_lecturers();
     cout<<"Password changed successfully!\n";
     system("pause");
 }
@@ -55,6 +57,7 @@ void view_assigned_courses(int lecturer_index){
 }
 
 void toggle_assignment(int lecturer_index, int course_index){
+    (void)lecturer_index;
     system("cls");
     course[course_index].has_assignement = !course[course_index].has_assignement;
     cout<<"Assignment "<<(course[course_index].has_assignement ? "Enabled" : "Disabled")

@@ -1,1 +1,5 @@
 1000|Scot Nchimunya|Computer Science|scot@gmail.com|0942434213|test123
+1001|Babra Banda|Mathematics and Natural Science|banda@gmail.com|09603423421|test123
+1002|Patrick Mvula|Mathematics and Natural Science|mvula@gmail.com|0976534213|test123
+1003|Richard N'Gambi|Mathematics and Natural Science|ngambi@gmail.com|0977231383|test123
+1004|Naomi Bwalya|Computer Science|naomi21@gmail.com|09777139423|test123

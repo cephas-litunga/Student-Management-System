@@ -1,14 +1,12 @@
 #include "globals.h"
-using namespace std;
 
-Student students[100];
+Student students[MAX_STUDENTS];
 int student_count = 0;
-int next_student_id = 260000;
-Lecturer lecturer[100];
+int next_student_id = 260001;
+
+Lecturer lecturer[MAX_LECTURERS];
 int lecturer_count = 0;
 
-
-// Main Management functions
 void student_management(){
     system("cls");
     while(1){
@@ -19,7 +17,7 @@ void student_management(){
             case 3: view_all_students(); break;
             case 4: edit_student_details(); break;
             case 5: delete_student(); break;
-            case 6: save_students(); save_courses(); return;
+            case 6: save_students(); return;
             default: cout<<"Invalid Option! Please try again.\n"; system("pause"); break;
         }
     }
@@ -36,7 +34,7 @@ void course_management(){
             case 3: delete_course(); break;
             case 4: search_course(); break;
             case 5: edit_course(); break;
-            case 6: cout<<"Exiting!\n"; save_courses(); return; 
+            case 6: cout<<"Exiting!\n"; save_courses(); return;
             default: cout<<"Invalid option! Please try again.\n"; system("pause");
         }
     }
@@ -54,7 +52,7 @@ void lecturer_management(){
             case 4: view_all_lecturers(); break;
             case 5: edit_lecturer(); break;
             case 6: delete_lecturer(); break;
-            case 7: save_lecturers(); return; 
+            case 7: save_lecturers(); return;
             default: cout<<"Invalid option! Please try again.\n"; system("pause");
         }
     }

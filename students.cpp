@@ -50,12 +50,12 @@ void change_password(int index){
     string new_password, current_password;
     cout<<"==================== Change Password ====================\n";
     cout<<"Enter current password: ";
-    cin>>current_password;
+    getline(cin, current_password);
 
     while(current_password != students[index].password){
         cout<<"Incorrect current password!\n";
         cout<<"Enter current password: ";
-        cin>>current_password;
+        getline(cin, current_password);
     }
 
     new_password = validatePassword("Enter new password: ");

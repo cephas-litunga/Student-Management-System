@@ -1,1 +1,6 @@
-CS120|Introduction to Computing |Computer Science|1|-1|0
+CS120|Introduction to Computing |Computer Science|1|1004|0
+CS130|Introduction to Software Development|Computer Science|1|-1|0
+MA110|Mathematics I|Computer Science|1|1003|0
+PH100|Physics|Computer Science|1|1002|0
+CS150|Introduction to Programming Fundamentals|Computer Science|1|1000|0
+LA111|Communication Skills|Computer Science|1|1001|0

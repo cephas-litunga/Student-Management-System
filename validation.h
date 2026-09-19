@@ -1,10 +1,11 @@
 #ifndef VALIDATION_H
 #define VALIDATION_H
 
-#include "globals.h"
+
 #include <iostream>
 #include <string>
 #include <limits>
+#include <cctype>
 using namespace std;
 
 // validate input
@@ -179,16 +180,22 @@ static inline string validateEmail(const string& prompt){
 // validate score
 static inline float validateScore(const string& prompt, float min = 0, float max = 100){
     float input;
-    cin>>input;
-    if(cin.fail() || input < min || input > max){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout<<"Invalid score. Enter a value between "<<min<<" and "<<max<<".\n";
-    }else{
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        return input;
+    while(true){
+        cout<<prompt;
+        if(cin>>input){
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            if(input >= min && input <= max){
+                return input;
+            }
+            cout<<"Invalid score. Enter a value between "<<min<<" and "<<max<<".\n";
+        }else{
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout<<"Invalid score. Enter a value between "<<min<<" and "<<max<<".\n";
+        }
     }
     return 0;
 }
+    
 
 #endif

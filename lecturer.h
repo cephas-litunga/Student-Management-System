@@ -9,6 +9,4 @@ void toggle_assignment(int lecturer_index, int course_index);
 void manage_results(int lecturer_index);
 void enter_ca_marks(int lecturer_index, int course_index);
 void enter_final_exam(int lecturer_index, int course_index);
-
-void enter_results(int lecturer_index, int course_index);
 #endif
