@@ -1,5 +1,5 @@
 #include "globals.h"
-
+#include "database.h"
 void view_lecturer_details(int lecturer_index){
     system("cls");
     cout<<"==================== Lecturer Details ====================\n";
@@ -12,29 +12,54 @@ void view_lecturer_details(int lecturer_index){
 
 void update_lecturer_info(int lecturer_index){
     system("cls");
-    cout<<"==================== Update Lecturer Info ====================\n";
+
+    Lecturer previous_lecturer = lecturer[lecturer_index];
+
+    cout << "==================== Update Lecturer Info ====================\n";
+
     lecturer[lecturer_index].email = validateEmail("Enter Email: ");
-    lecturer[lecturer_index].phone_number = validatePhone("Enter Phone Number: ");
-    save_lecturers();
-    cout<<"Lecturer Details updated successfully!\n";
+    lecturer[lecturer_index].phone_number =
+        validatePhone("Enter Phone Number: ");
+
+    if(!update_lecturer(lecturer[lecturer_index])){
+        lecturer[lecturer_index] = previous_lecturer;
+
+        cout << "Failed to update lecturer details in database.\n";
+        system("pause");
+        return;
+    }
+
+    cout << "Lecturer details updated successfully!\n";
     system("pause");
 }
 
 void change_lecturer_password(int lecturer_index){
     system("cls");
-    cout<<"==================== Change Lecturer Password ====================\n";
+
     string current_password;
-    cout<<"Enter Current password: ";
+
+    cout << "==================== Change Lecturer Password ====================\n";
+    cout << "Enter Current password: ";
     getline(cin, current_password);
 
     while(current_password != lecturer[lecturer_index].password){
-        cout<<"Incorrect password entered. Try again\n";
-        cout<<"Enter Current password: ";
+        cout << "Incorrect password entered. Try again\n";
+        cout << "Enter Current password: ";
         getline(cin, current_password);
     }
-    lecturer[lecturer_index].password = validatePassword("Enter new password");
-    save_lecturers();
-    cout<<"Password changed successfully!\n";
+
+    string new_password =
+        validatePassword("Enter new password: ");
+
+    if(!update_lecturer_password(lecturer[lecturer_index].lecturerID, new_password)){
+        cout << "Password change failed. Please try again.\n";
+        system("pause");
+        return;
+    }
+
+    lecturer[lecturer_index].password = new_password;
+
+    cout << "Password changed successfully!\n";
     system("pause");
 }
 
@@ -56,15 +81,31 @@ void view_assigned_courses(int lecturer_index){
     system("pause");
 }
 
+
 void toggle_assignment(int lecturer_index, int course_index){
     (void)lecturer_index;
+
     system("cls");
-    course[course_index].has_assignement = !course[course_index].has_assignement;
-    cout<<"Assignment "<<(course[course_index].has_assignement ? "Enabled" : "Disabled")
-    <<" for "<<course[course_index].course_code<<".\n";
-    save_courses();
+
+    bool previous_value = course[course_index].has_assignment;
+
+    course[course_index].has_assignment = !previous_value;
+
+    if(!update_course(course[course_index])){
+        course[course_index].has_assignment = previous_value;
+
+        cout << "Failed to update assignment setting in database.\n";
+        system("pause");
+        return;
+    }
+
+    cout << "Assignment "
+         << (course[course_index].has_assignment ? "Enabled" : "Disabled")
+         << " for " << course[course_index].course_code << ".\n";
+
     system("pause");
 }
+
     
 
 
@@ -77,7 +118,7 @@ void manage_results(int lecturer_index){
         if(course[i].lecturerID == lecturer[lecturer_index].lecturerID){
             cout<<"Code: "<<course[i].course_code<<endl;
             cout<<"Name: "<<course[i].course_name<<endl;     
-            cout<<"Has Assignment: "<<(course[i].has_assignement ? "Yes" : "No")<<endl;
+            cout<<"Has Assignment: "<<(course[i].has_assignment ? "Yes" : "No")<<endl;
             cout<<"_______________________________________________"<<endl;
             has_courses = true;
         }

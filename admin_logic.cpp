@@ -17,7 +17,7 @@ void student_management(){
             case 3: view_all_students(); break;
             case 4: edit_student_details(); break;
             case 5: delete_student(); break;
-            case 6: save_students(); return;
+            case 6: return;
             default: cout<<"Invalid Option! Please try again.\n"; system("pause"); break;
         }
     }
@@ -34,7 +34,7 @@ void course_management(){
             case 3: delete_course(); break;
             case 4: search_course(); break;
             case 5: edit_course(); break;
-            case 6: cout<<"Exiting!\n"; save_courses(); return;
+            case 6: cout<<"Exiting!\n"; return;
             default: cout<<"Invalid option! Please try again.\n"; system("pause");
         }
     }
@@ -52,7 +52,7 @@ void lecturer_management(){
             case 4: view_all_lecturers(); break;
             case 5: edit_lecturer(); break;
             case 6: delete_lecturer(); break;
-            case 7: save_lecturers(); return;
+            case 7: return;
             default: cout<<"Invalid option! Please try again.\n"; system("pause");
         }
     }

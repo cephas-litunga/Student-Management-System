@@ -39,10 +39,6 @@ void login(){
                     case 6: student_register_course(current_student); break;
                     case 7:
                         cout<<"Logging out...\n";
-                        save_students();
-                        save_courses();
-                        save_registrations();
-                        save_results();
                         system("pause");
                         return;
                     default:
@@ -68,8 +64,6 @@ void login(){
                     case 5: manage_results(current_lecturer); break;
                     case 6:
                         cout<<"Logging out...\n";
-                        save_lecturers();
-                        save_results();
                         system("pause");
                         return;
                     default:

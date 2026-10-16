@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "database.h"
 
 int next_lecturer_id = 1000;
 
@@ -25,12 +26,19 @@ void register_lecturer(){
         validatePassword("Create Lecturer Password: ");
 
     lecturer[lecturer_count].lecturerID = next_lecturer_id++;
+
+    if(!insert_lecturer(lecturer[lecturer_count])){
+        cout<<"Failed to save lecturer to database.\n";
+        system("pause");
+        return;
+    }
+
+    next_lecturer_id++;
     lecturer_count++;
 
     cout<<"Lecturer registered successfully!\n";
     cout<<"Lecturer ID: "<<lecturer[lecturer_count - 1].lecturerID<<endl;
 
-    save_lecturers();
     system("pause");
 }
 
@@ -126,8 +134,12 @@ void edit_lecturer(){
             lecturer[i].phone_number =
                 validatePhone("Enter Phone Number: ");
 
-            cout<<"Lecturer Details updated successfully!\n";
-            save_lecturers();
+            if(update_lecturer(lecturer[i])){
+                cout<<"Lecturer changes saved to database.\n";
+            }else{
+                cout<<"Failed to save changes to database.\n";
+            }
+
             system("pause");
             return;
         }
@@ -187,6 +199,12 @@ void delete_lecturer(){
         return;
     }
 
+    if(!delete_lecturer(search_id)){
+        cout<<"Failed to delete lecturer from database.\n";
+        system("pause");
+        return;
+    }
+    
     // Remove this lecturer from every course they were assigned to.
     for(int i = 0; i < course_count; i++){
         if(course[i].lecturerID == search_id){
@@ -199,75 +217,25 @@ void delete_lecturer(){
     }
     lecturer_count--;
 
-    save_lecturers();
-    save_courses();
-
     cout<<"Lecturer deleted successfully. Related course assignments were removed.\n";
     system("pause");
 }
 
-void save_lecturers(){
-    ofstream outFile("lecturers.txt");
-
-    if(!outFile.is_open()){
-        cout<<"Error Saving Lecturers\n";
-        return;
-    }
-
-    for(int i = 0; i < lecturer_count; i++){
-        outFile<<lecturer[i].lecturerID<<"|"
-               <<lecturer[i].name<<"|"
-               <<lecturer[i].department<<"|"
-               <<lecturer[i].email<<"|"
-               <<lecturer[i].phone_number<<"|"
-               <<lecturer[i].password<<"\n";
-    }
-}
-
-void load_lecturers(){
-    ifstream inFile("lecturers.txt");
-
-    if(!inFile.is_open())
-        return;
+void load_lecturers_from_database(){
+    vector<Lecturer> database_lecturers = get_lecturers();
 
     lecturer_count = 0;
-    next_lecturer_id = 1000;
+    next_lecturer_id = 1;
 
-    string line;
+    for(const Lecturer& lecturer : database_lecturers){
+        if(lecturer_count >= MAX_LECTURERS)
+            break;
+        
+        ::lecturer[lecturer_count] = lecturer;
 
-    while(getline(inFile, line) && lecturer_count < MAX_LECTURERS){
-        if(line.empty()) continue;
-        if(line.back() == '\r') line.pop_back();
+        if(lecturer.lecturerID >= next_lecturer_id)
+            next_lecturer_id = lecturer.lecturerID + 1;
 
-        size_t p1 = line.find('|');
-        size_t p2 = (p1 == string::npos) ? string::npos : line.find('|', p1 + 1);
-        size_t p3 = (p2 == string::npos) ? string::npos : line.find('|', p2 + 1);
-        size_t p4 = (p3 == string::npos) ? string::npos : line.find('|', p3 + 1);
-        size_t p5 = (p4 == string::npos) ? string::npos : line.find('|', p4 + 1);
-
-        if(p5 == string::npos) continue;
-
-        try{
-            lecturer[lecturer_count].lecturerID =
-                stoi(line.substr(0, p1));
-            lecturer[lecturer_count].name =
-                line.substr(p1 + 1, p2 - p1 - 1);
-            lecturer[lecturer_count].department =
-                line.substr(p2 + 1, p3 - p2 - 1);
-            lecturer[lecturer_count].email =
-                line.substr(p3 + 1, p4 - p3 - 1);
-            lecturer[lecturer_count].phone_number =
-                line.substr(p4 + 1, p5 - p4 - 1);
-            lecturer[lecturer_count].password =
-                line.substr(p5 + 1);
-
-            if(lecturer[lecturer_count].lecturerID >= next_lecturer_id)
-                next_lecturer_id = lecturer[lecturer_count].lecturerID + 1;
-
-            lecturer_count++;
-        }
-        catch(...){
-            continue;
-        }
+        lecturer_count++;
     }
 }

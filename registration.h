@@ -7,4 +7,5 @@ void view_registered_courses(int student_index);
 void drop_course(int student_index);
 void save_registrations();
 void load_registrations();
+void load_registrations_from_database();
 #endif

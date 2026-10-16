@@ -43,7 +43,7 @@ public:
     string course_code, course_name, course_program;
     int year_offered = 0;
     int lecturerID = -1;
-    bool has_assignement = false;
+    bool has_assignment = false;
 };
 
 class Lecturer{
@@ -65,7 +65,7 @@ public:
     float test1 = 0.0;
     float test2 = 0.0;
     float assignment = 0.0;
-    float continousAssessment = 0.0;
+    float continuousAssessment = 0.0;
     float finalExam = -1.0;
     float finalMark = -1.0;
     string finalGrade = "";

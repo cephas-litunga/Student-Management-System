@@ -1,0 +1,31 @@
+
+# Compiled program
+sms
+sms.exe
+*.exe
+*.o
+*.obj
+
+# SQLite database and temporary database files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Legacy text files containing local application data
+students.txt
+lecturers.txt
+courses.txt
+registrations.txt
+results.txt
+
+# Debug and temporary files
+*.log
+*.tmp
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

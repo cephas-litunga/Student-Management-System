@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "database.h"
 // Student Portal Functions
 void view_details(int index){
     system("cls");
@@ -36,7 +37,7 @@ void view_ca(int index){
     bool found = false;
     for(int i = 0; i < result_count; i++){
         if(results[i].studentID == students[index].studentID){
-            cout<<results[i].course_code<<" -  "<<results[i].continousAssessment<<endl;
+            cout<<results[i].course_code<<" -  "<<results[i].continuousAssessment<<endl;
             found = true;
         }
     }
@@ -45,52 +46,92 @@ void view_ca(int index){
 
 }
 
+
 void change_password(int index){
     system("cls");
+
     string new_password, current_password;
-    cout<<"==================== Change Password ====================\n";
-    cout<<"Enter current password: ";
+
+    cout << "==================== Change Password ====================\n";
+    cout << "Enter current password: ";
     getline(cin, current_password);
 
     while(current_password != students[index].password){
-        cout<<"Incorrect current password!\n";
-        cout<<"Enter current password: ";
+        cout << "Incorrect current password!\n";
+        cout << "Enter current password: ";
         getline(cin, current_password);
     }
 
     new_password = validatePassword("Enter new password: ");
+
+    if(!update_student_password(students[index].studentID, new_password)){
+        cout << "Password change failed. Please try again.\n";
+        system("pause");
+        return;
+    }
+
     students[index].password = new_password;
-    cout<<"Password changed successfully!\n";
+
+    cout << "Password changed successfully!\n";
     system("pause");
 }
 
+
+
 void update_info(int index){
     system("cls");
+
     int option;
-    cout<<"==================== Update Student Info ====================\n";
-    cout<<"1. Update Phone number\n";
-    cout<<"2. Update Email\n";
-    cout<<"3. Change password\n";
-    cout<<"Enter option: ";
-    cin>>option;
-    
-    if(option == 1){
-        students[index].phone_number = validatePhone("Enter new phone number: ");
-        cout<<"Phone number updated successfully!\n";
+
+    cout << "==================== Update Student Info ====================\n";
+    cout << "1. Update Phone number\n";
+    cout << "2. Update Email\n";
+    cout << "3. Change password\n";
+    cout << "Enter option: ";
+
+    if(!(cin >> option)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid option!\n";
         system("pause");
-    } else if(option == 2){
-        students[index].email = validateEmail("Enter new email: ");
-        cout<<"Email updated successfully!\n";
-        system("pause");
-    } else if(option == 3){
-        change_password(index);
-    } else {
-        cout<<"Invalid option! Please try again.\n";
+        return;
     }
-    save_courses(); 
-    save_students();
-    save_registrations();
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    if(option == 3){
+        change_password(index);
+        return;
+    }
+
+    if(option != 1 && option != 2){
+        cout << "Invalid option! Please try again.\n";
+        system("pause");
+        return;
+    }
+
+    Student previous_student = students[index];
+
+    if(option == 1){
+        students[index].phone_number =
+            validatePhone("Enter new phone number: ");
+    }else{
+        students[index].email =
+            validateEmail("Enter new email: ");
+    }
+
+    if(!update_student(students[index])){
+        students[index] = previous_student;
+
+        cout << "Failed to update information in the database.\n";
+        system("pause");
+        return;
+    }
+
+    cout << "Student information updated successfully!\n";
+    system("pause");
 }
+
 
 void student_register_course(int index){
     system("cls");

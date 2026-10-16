@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "database.h"
 
 void add_student(){
     system("cls");
@@ -21,12 +22,19 @@ void add_student(){
     students[student_count].year_of_study = 1;
 
     students[student_count].studentID = next_student_id++;
+
+    if(!insert_student(students[student_count])){
+        cout<<"Failed to add student to database.\n";
+        system("pause");
+        return;
+    }
+
+    next_student_id++;
     student_count++;
 
     cout<<"Student added successfully!\n";
     cout<<"Student ID: "<<students[student_count - 1].studentID<<endl;
 
-    save_students();
     system("pause");
 }
 
@@ -115,8 +123,12 @@ void edit_student_details(){
             students[i].email = validateEmail("Enter Email: ");
             students[i].phone_number = validatePhone("Enter Phone Number: ");
 
-            cout<<"Student Details updated successfully!\n";
-            save_students();
+            if(update_student(students[i])){
+                cout<<"Student Details updated successfully in database!\n";
+            }else{
+                cout<<"Failed to update student details in database.\n";
+            }
+
             system("pause");
             return;
         }
@@ -173,6 +185,12 @@ void delete_student(){
         return;
     }
 
+    if(!delete_student(search_id)){
+        cout<<"Failed to delete student from database.\n";
+        system("pause");
+        return;
+    }
+    
     // Remove the student.
     for(int i = student_index; i < student_count - 1; i++){
         students[i] = students[i + 1];
@@ -197,86 +215,26 @@ void delete_student(){
     }
     result_count = new_result_count;
 
-    save_students();
-    save_registrations();
-    save_results();
 
     cout<<"Student and related registration/result records deleted successfully!\n";
     system("pause");
 }
 
-void save_students(){
-    ofstream outFile("students.txt");
-
-    if(!outFile.is_open()){
-        cout<<"Error saving students!\n";
-        return;
-    }
-
-    for(int i = 0; i < student_count; i++){
-        outFile<<students[i].studentID<<"|"<<students[i].password<<"|"
-               <<students[i].name<<"|"<<students[i].age<<"|"<<students[i].program
-               <<"|"<<students[i].email<<"|"<<students[i].phone_number<<"|"
-               <<students[i].year_of_study<<"|"<<students[i].gender<<"\n";
-    }
-}
-
-void load_students(){
-    ifstream inFile("students.txt");
-
-    if(!inFile.is_open()){
-        return;
-    }
+void load_students_from_database(){
+    vector<Student> database_students = get_students();
 
     student_count = 0;
     next_student_id = 260001;
 
-    string line;
-
-    while(getline(inFile, line) && student_count < MAX_STUDENTS){
-        if(line.empty()) continue;
-        if(line.back() == '\r') line.pop_back();
-
-        size_t p[8];
-        p[0] = line.find('|');
-
-        for(int i = 1; i < 8; i++){
-            p[i] = (p[i - 1] == string::npos)
-                ? string::npos
-                : line.find('|', p[i - 1] + 1);
+    for(const Student& student : database_students){
+        if(student_count >= MAX_STUDENTS){
+            break;
         }
+        students[student_count] = student;
 
-        if(p[7] == string::npos) continue;
-
-        try{
-            students[student_count].studentID =
-                stoi(line.substr(0, p[0]));
-            students[student_count].password =
-                line.substr(p[0] + 1, p[1] - p[0] - 1);
-            students[student_count].name =
-                line.substr(p[1] + 1, p[2] - p[1] - 1);
-            students[student_count].age =
-                stoi(line.substr(p[2] + 1, p[3] - p[2] - 1));
-            students[student_count].program =
-                line.substr(p[3] + 1, p[4] - p[3] - 1);
-            students[student_count].email =
-                line.substr(p[4] + 1, p[5] - p[4] - 1);
-            students[student_count].phone_number =
-                line.substr(p[5] + 1, p[6] - p[5] - 1);
-            students[student_count].year_of_study =
-                stoi(line.substr(p[6] + 1, p[7] - p[6] - 1));
-
-            string gender_str = line.substr(p[7] + 1);
-            if(!gender_str.empty())
-                students[student_count].gender = gender_str[0];
-
-            if(students[student_count].studentID >= next_student_id)
-                next_student_id = students[student_count].studentID + 1;
-
-            student_count++;
+        if(student.studentID >= next_student_id){
+            next_student_id = student.studentID + 1;
         }
-        catch(...){
-            continue;
-        }
+        student_count++;
     }
 }

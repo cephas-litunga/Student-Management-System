@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "database.h"
 
 Results results[MAX_RESULTS];
 int result_count = 0;
@@ -31,7 +32,7 @@ void enter_ca_marks(int lecturer_index, int course_index){
     cout<<"Course: "<<course[course_index].course_code
         <<" - "<<course[course_index].course_name<<"\n";
     cout<<"Has Assignment: "
-        <<(course[course_index].has_assignement ? "Yes" : "No")<<"\n";
+        <<(course[course_index].has_assignment ? "Yes" : "No")<<"\n";
     cout<<"_____________________________________________________\n";
 
     int student_id;
@@ -88,6 +89,8 @@ void enter_ca_marks(int lecturer_index, int course_index){
         }
     }
 
+    bool created_new_result = false;
+
     if(result_index == -1){
         if(result_count >= MAX_RESULTS){
             cout<<"Result storage is full. Cannot save another result.\n";
@@ -96,11 +99,13 @@ void enter_ca_marks(int lecturer_index, int course_index){
         }
 
         result_index = result_count++;
+        created_new_result = true;
         results[result_index] = Results();
         results[result_index].studentID = student_id;
         results[result_index].course_code = course[course_index].course_code;
     }
 
+    Results previous_result = results[result_index];
     // Preserve an already-entered final examination if CA is being edited.
     float previous_final_exam = results[result_index].finalExam;
 
@@ -119,7 +124,7 @@ void enter_ca_marks(int lecturer_index, int course_index){
     float test1_ca = calculate_test_CA(
         test1_score,
         test1_total,
-        course[course_index].has_assignement
+        course[course_index].has_assignment
     );
 
     float test2_total;
@@ -132,12 +137,12 @@ void enter_ca_marks(int lecturer_index, int course_index){
     float test2_ca = calculate_test_CA(
         test2_score,
         test2_total,
-        course[course_index].has_assignement
+        course[course_index].has_assignment
     );
 
     float assignment_ca = 0.0f;
 
-    if(course[course_index].has_assignement){
+    if(course[course_index].has_assignment){
         float assignment_score;
 
         cout<<"Assignment\n";
@@ -150,7 +155,7 @@ void enter_ca_marks(int lecturer_index, int course_index){
     results[result_index].test1 = test1_ca;
     results[result_index].test2 = test2_ca;
     results[result_index].assignment = assignment_ca;
-    results[result_index].continousAssessment =
+    results[result_index].continuousAssessment =
         test1_ca + test2_ca + assignment_ca;
 
     // Keep final exam/final result if it already exists.
@@ -158,7 +163,7 @@ void enter_ca_marks(int lecturer_index, int course_index){
 
     if(previous_final_exam >= 0.0f){
         results[result_index].finalMark =
-            results[result_index].continousAssessment + previous_final_exam;
+            results[result_index].continuousAssessment + previous_final_exam;
         results[result_index].finalGrade =
             assign_grade(results[result_index].finalMark);
     }else{
@@ -167,7 +172,7 @@ void enter_ca_marks(int lecturer_index, int course_index){
     }
 
     cout<<"___________________________________________________\n";
-    cout<<"CA: "<<results[result_index].continousAssessment<<"/40\n";
+    cout<<"CA: "<<results[result_index].continuousAssessment<<"/40\n";
 
     if(previous_final_exam >= 0.0f){
         cout<<"Final Exam: "<<results[result_index].finalExam<<"/60\n";
@@ -175,8 +180,19 @@ void enter_ca_marks(int lecturer_index, int course_index){
         cout<<"Grade: "<<results[result_index].finalGrade<<"\n";
     }
 
-    save_results();
-    cout<<"CA marks saved successfully!\n";
+    if(!save_result(results[result_index])){
+        if(created_new_result){
+            result_count--;
+        }else{
+            results[result_index] = previous_result;
+        }
+
+        cout << "Failed to save CA marks to the database.\n";
+        system("pause");
+        return;
+    }
+
+    cout << "CA marks saved successfully!\n";   
     system("pause");
 }
 
@@ -238,124 +254,51 @@ void enter_final_exam(int lecturer_index, int course_index){
 
     cout<<"Student: "<<student_name<<endl;
     cout<<"__________________________________________\n";
-    cout<<"CA: "<<results[result_index].continousAssessment<<"/40\n";
+    cout<<"CA: "<<results[result_index].continuousAssessment<<"/40\n";
 
     float exam_score =
         validateScore("Enter Final Exam Score (out of 100): ", 0, 100);
 
+    Results previous_result = results[result_index];
+
     results[result_index].finalExam = (exam_score / 100.0f) * 60.0f;
     results[result_index].finalMark =
-        results[result_index].continousAssessment +
+        results[result_index].continuousAssessment +
         results[result_index].finalExam;
     results[result_index].finalGrade =
         assign_grade(results[result_index].finalMark);
 
     cout<<"__________________________________________\n";
-    cout<<"CA: "<<results[result_index].continousAssessment<<"/40\n";
+    cout<<"CA: "<<results[result_index].continuousAssessment<<"/40\n";
     cout<<"Final Exam: "<<results[result_index].finalExam<<"/60\n";
     cout<<"Final Mark: "<<results[result_index].finalMark<<"/100\n";
     cout<<"Grade: "<<results[result_index].finalGrade<<"\n";
 
-    save_results();
-    cout<<"Results saved successfully!\n";
+    if(!save_result(results[result_index])){
+        results[result_index] = previous_result;
+
+        cout << "Failed to save results to the database.\n";
+        system("pause");
+        return;
+    }
+
+    cout << "Results saved successfully!\n";
     system("pause");
 }
 
-void save_results(){
-    ofstream outFile("results.txt");
+void load_results_from_database()
+{
+    vector<Results> loaded_results = get_results();
 
-    if(!outFile.is_open()){
-        cout<<"Error saving results.\n";
+    if(loaded_results.size() > MAX_RESULTS){
+        cerr << "Database contains more results than "
+             << "the application can hold.\n";
         return;
     }
-
-    for(int i = 0; i < result_count; i++){
-        outFile<<results[i].studentID<<"|"
-               <<results[i].course_code<<"|"
-               <<results[i].test1<<"|"
-               <<results[i].test2<<"|"
-               <<results[i].assignment<<"|"
-               <<results[i].continousAssessment<<"|"
-               <<results[i].finalExam<<"|"
-               <<results[i].finalMark<<"|"
-               <<results[i].finalGrade<<"\n";
-    }
-}
-
-void load_results(){
-    ifstream inFile("results.txt");
-
-    if(!inFile.is_open())
-        return;
 
     result_count = 0;
 
-    string line;
-
-    while(getline(inFile, line) && result_count < MAX_RESULTS){
-        if(line.empty()) continue;
-        if(line.back() == '\r') line.pop_back();
-
-        size_t p[8];
-        p[0] = line.find('|');
-
-        for(int i = 1; i < 8; i++){
-            p[i] = (p[i - 1] == string::npos)
-                ? string::npos
-                : line.find('|', p[i - 1] + 1);
-        }
-
-        // A valid result record requires all 8 separators.
-        if(p[7] == string::npos)
-            continue;
-
-        try{
-            results[result_count].studentID =
-                stoi(line.substr(0, p[0]));
-            results[result_count].course_code =
-                line.substr(p[0] + 1, p[1] - p[0] - 1);
-            results[result_count].test1 =
-                stof(line.substr(p[1] + 1, p[2] - p[1] - 1));
-            results[result_count].test2 =
-                stof(line.substr(p[2] + 1, p[3] - p[2] - 1));
-            results[result_count].assignment =
-                stof(line.substr(p[3] + 1, p[4] - p[3] - 1));
-            results[result_count].continousAssessment =
-                stof(line.substr(p[4] + 1, p[5] - p[4] - 1));
-            results[result_count].finalExam =
-                stof(line.substr(p[5] + 1, p[6] - p[5] - 1));
-            results[result_count].finalMark =
-                stof(line.substr(p[6] + 1, p[7] - p[6] - 1));
-            results[result_count].finalGrade =
-                line.substr(p[7] + 1);
-
-            // Older v1.0.0 data may contain duplicate student/course records.
-            // Prefer a completed result over an incomplete one.
-            int duplicate_index = -1;
-            for(int i = 0; i < result_count; i++){
-                if(results[i].studentID == results[result_count].studentID &&
-                   results[i].course_code == results[result_count].course_code){
-                    duplicate_index = i;
-                    break;
-                }
-            }
-
-            if(duplicate_index != -1){
-                bool existing_complete =
-                    !results[duplicate_index].finalGrade.empty();
-                bool new_complete =
-                    !results[result_count].finalGrade.empty();
-
-                if(new_complete && !existing_complete)
-                    results[duplicate_index] = results[result_count];
-
-                continue;
-            }
-
-            result_count++;
-        }
-        catch(...){
-            continue;
-        }
+    for(const Results& result : loaded_results){
+        results[result_count++] = result;
     }
 }

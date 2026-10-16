@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "database.h"
 
 
 // Lecturer assignment functions
@@ -63,9 +64,24 @@ void assign_lecturer(){
         return;
     }
 
-    course[course_index].lecturerID = lecturer[lecturer_index].lecturerID;
-    cout<<"Lecturer "<<lecturer[lecturer_index].name<<" assigned to "<<course[course_index].course_code<<" successfully!\n";
-    save_courses();
+    int previous_lecturer_id = course[course_index].lecturerID;
+
+    course[course_index].lecturerID =
+    lecturer[lecturer_index].lecturerID;
+
+    if(!update_course(course[course_index])){
+        // Restore the original in-memory assignment if the database update fails.
+        course[course_index].lecturerID = previous_lecturer_id;
+
+        cout<<"Failed to save lecturer assignment to the database.\n";
+        system("pause");
+        return;
+    }
+
+    cout<<"Lecturer "<<lecturer[lecturer_index].name
+    <<" assigned to "<<course[course_index].course_code
+    <<" successfully!\n";
+
     system("pause");
 }
 
@@ -135,55 +151,74 @@ void view_course_lecturer(){
     system("pause");
 }
 
+
 void remove_lecturer_assignment(){
     system("cls");
+
+    cout << "============ Remove Lecturer Assignment ============\n";
+    cout << "Enter Course Code: ";
+
     string course_code;
-    cout<<"============ Remove Lecturer Assignment =================\n";
-    cout<<"Enter course code: ";
     getline(cin, course_code);
 
+    // Find the course.
     int course_index = -1;
+
     for(int i = 0; i < course_count; i++){
         if(course[i].course_code == course_code){
             course_index = i;
             break;
         }
     }
+
     if(course_index == -1){
-        cout<<"Course "<<course_code<<" not found!\n";
-        system("pause");
-        return;
-    }
-    if(course[course_index].lecturerID == -1){
-        cout<<"Course "<<course_code<<" has no lecturer assigned.\n";
+        cout << "Course " << course_code << " not found!\n";
         system("pause");
         return;
     }
 
-    // Find lecturer name for confirmation message
-    string lecturer_name = "";
+    // Check whether a lecturer is assigned.
+    int current_lecturer_id = course[course_index].lecturerID;
+
+    if(current_lecturer_id == -1){
+        cout << "This course has no assigned lecturer.\n";
+        system("pause");
+        return;
+    }
+
+    string lecturer_name = "Unknown lecturer";
+
     for(int i = 0; i < lecturer_count; i++){
-        if(lecturer[i].lecturerID == course[course_index].lecturerID){
+        if(lecturer[i].lecturerID == current_lecturer_id){
             lecturer_name = lecturer[i].name;
             break;
         }
     }
 
-    cout<<"Remove "<<lecturer_name<<" from "<<course_code<<"?\n";
-    cout<<"1. Confirm\n";
-    cout<<"2. Cancel\n";
-    cout<<"Enter option: ";
-    int choice = validateInput(1, 2);
-    if(choice == 2){
-        cout<<"Removal cancelled.\n";
+    cout << "Remove " << lecturer_name
+         << " from course " << course_code << "?\n";
+    cout << "1. Confirm\n";
+    cout << "2. Cancel\n";
+    cout << "Enter option: ";
+
+    if(validateInput(1, 2) == 2){
+        cout << "Removal cancelled.\n";
         system("pause");
         return;
     }
-    
-    sleep(1);
 
+    // Remove the assignment in memory.
     course[course_index].lecturerID = -1;
-    cout<<"Lecturer removed from "<<course_code<<" successfully!\n";
-    save_courses();
+
+    // Persist the change in SQLite.
+    if(!update_course(course[course_index])){
+        course[course_index].lecturerID = current_lecturer_id;
+
+        cout << "Failed to remove lecturer assignment from database.\n";
+        system("pause");
+        return;
+    }
+
+    cout << "Lecturer assignment removed successfully.\n";
     system("pause");
 }

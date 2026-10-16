@@ -6,7 +6,5 @@ void search_course();
 void view_all_courses();
 void edit_course();
 void delete_course();
-void save_courses();
-void load_courses();
-
+void load_courses_from_database();
 #endif

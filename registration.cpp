@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "database.h"
 
 Registration registrations[MAX_REGISTRATIONS];
 int registration_count = 0;
@@ -96,15 +97,21 @@ void register_course(int student_index){
         }
     }
 
-    registrations[registration_count].studentID =
-        students[student_index].studentID;
+    int student_id = students[student_index].studentID;
+
+    if(!register_student(student_id, course_code)){
+        cout<<"Failed to register for course in database.\n";
+        system("pause");
+        return;
+    }
+
+    registrations[registration_count].studentID = students[student_index].studentID;
     registrations[registration_count].course_code = course_code;
     registration_count++;
 
     cout<<"Successfully registered for "
         <<course[course_index].course_name<<"!\n";
 
-    save_registrations();
     system("pause");
 }
 
@@ -170,17 +177,26 @@ void drop_course(int student_index){
         return;
     }
 
-    // Remove the registration.
+    int student_id = students[student_index].studentID;
+
+    // Delete the registration from SQLite.
+    if(!delete_registration(student_id, course_code)){
+        cout << "Failed to drop course from the database.\n";
+        system("pause");
+        return;
+    }
+
+    // Remove the registration from memory.
     for(int i = reg_index; i < registration_count - 1; i++)
         registrations[i] = registrations[i + 1];
 
     registration_count--;
 
-    // A dropped course should no longer have a result record for this student.
+    // Remove the corresponding result from memory.
     int new_result_count = 0;
 
     for(int i = 0; i < result_count; i++){
-        if(results[i].studentID == students[student_index].studentID &&
+        if(results[i].studentID == student_id &&
            results[i].course_code == course_code){
             continue;
         }
@@ -190,13 +206,11 @@ void drop_course(int student_index){
 
     result_count = new_result_count;
 
-    cout<<"Successfully dropped "<<course_code<<".\n";
+    cout << "Successfully dropped " << course_code << ".\n";
 
-    save_registrations();
-    save_results();
+    
 
-    system("pause");
-}
+    system("pause");}
 
 void save_registrations(){
     ofstream outFile("registrations.txt");
@@ -246,5 +260,20 @@ void load_registrations(){
         catch(...){
             continue;
         }
+    }
+}
+
+
+void load_registrations_from_database(){
+    vector<Registration> database_registrations = get_registrations();
+
+    registration_count = 0;
+
+    for(const Registration& registration : database_registrations){
+        if(registration_count >= MAX_REGISTRATIONS)
+            break;
+        
+            registrations[registration_count] = registration;
+            registration_count++;
     }
 }

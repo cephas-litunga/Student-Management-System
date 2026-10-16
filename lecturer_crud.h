@@ -6,6 +6,5 @@ void search_lecturer();
 void view_all_lecturers();
 void edit_lecturer();
 void delete_lecturer();
-void save_lecturers();
-void load_lecturers();
+void load_lecturers_from_database();
 #endif
