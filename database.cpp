@@ -1161,55 +1161,77 @@ bool update_lecturer_password(int lecturer_id, const string& new_password){
 }
 
 int get_result_status(int student_id){
-    // Count results for this student
-    const char* results_sql = R"(
-        SELECT COUNT(*) FROM results WHERE student_id = ?;
+    const char* sql = R"(
+        SELECT
+            COUNT(registrations.course_code),
+            COUNT(
+                CASE
+                    WHEN results.final_exam IS NOT NULL
+                     AND results.final_exam >= 0
+                     AND results.final_grade IS NOT NULL
+                     AND results.final_grade != ''
+                    THEN 1
+                END
+            )
+        FROM registrations
+        LEFT JOIN results
+            ON registrations.student_id = results.student_id
+            AND registrations.course_code = results.course_code
+        WHERE registrations.student_id = ?;
     )";
 
     sqlite3_stmt* statement = nullptr;
-    int result_count = 0;
-    int registration_count = 0;
 
-    int result_code = sqlite3_prepare_v2(db, results_sql, -1, &statement, nullptr);
+    int result_code = sqlite3_prepare_v2(
+        db, sql, -1, &statement, nullptr
+    );
+
     if(result_code != SQLITE_OK){
-        cerr<<"Failed to prepare result count query."<<endl;
-        return 0;
+        cerr << "Failed to prepare result status query.\n";
+        cerr << "SQLite error: " << sqlite3_errmsg(db) << '\n';
+        return -1;
     }
 
     sqlite3_bind_int(statement, 1, student_id);
 
-    if(sqlite3_step(statement) == SQLITE_ROW){
-        result_count = sqlite3_column_int(statement, 0);
+    result_code = sqlite3_step(statement);
+
+    if(result_code != SQLITE_ROW){
+        cerr << "Failed to check result status.\n";
+        cerr << "SQLite error: " << sqlite3_errmsg(db) << '\n';
+        sqlite3_finalize(statement);
+        return -1;
     }
+
+    int registration_count = sqlite3_column_int(statement, 0);
+    int completed_results = sqlite3_column_int(statement, 1);
+
     sqlite3_finalize(statement);
 
-    // Count registrations for this student
-    const char* reg_sql = R"(
-        SELECT COUNT(*) FROM registrations WHERE student_id = ?;
-    )";
-
-    result_code = sqlite3_prepare_v2(db, reg_sql, -1, &statement, nullptr);
-    if(result_code != SQLITE_OK){
-        cerr<<"Failed to prepare registration count query."<<endl;
+    if(registration_count == 0 || completed_results == 0){
         return 0;
     }
 
-    sqlite3_bind_int(statement, 1, student_id);
-
-    if(sqlite3_step(statement) == SQLITE_ROW){
-        registration_count = sqlite3_column_int(statement, 0);
+    if(completed_results < registration_count){
+        return 1;
     }
-    sqlite3_finalize(statement);
 
-    // Determine status
-    if(result_count == 0) return 0;
-    if(result_count < registration_count) return 1;
-    return 2;
+    if(completed_results == registration_count){
+        return 2;
+    }
+
+    cerr << "Invalid result counts for student "
+         << student_id << ".\n";
+    return -1;
 }
 
 void view_student_results(int student_id){
     int status = get_result_status(student_id);
 
+    if(status == -1){
+        cout<<"Unable to check result availability. Please try again later.\n";
+        return;
+    }
     if(status == 0){
         cout<<"Results are not yet available.\n";
         return;
@@ -1266,12 +1288,18 @@ void view_student_results(int student_id){
             reinterpret_cast<const char*>(sqlite3_column_text(statement, 8));
 
         cout<<"\nCourse: "<<course_code<<" - "<<course_name<<endl;
-        cout<<"Test 1: "<<test1<<endl;
-        cout<<"Test 2: "<<test2<<endl;
-        cout<<"CA: "<<ca<<"/40"<<endl;
-        cout<<"Final Exam: "<<final_exam<<"/60"<<endl;
-        cout<<"Final Mark: "<<final_mark<<"/100"<<endl;
-        cout<<"Grade: "<<(final_grade ? final_grade : "N/A")<<endl;
+        // cout<<"Test 1: "<<test1<<endl;
+        // cout<<"Test 2: "<<test2<<endl;
+        // cout<<"CA: "<<ca<<"/40"<<endl;
+        if(final_exam < 0 || final_grade == nullptr || final_grade[0] == '\0'){
+            cout<<"Final Exam: Not yet entered\n";
+            cout<<"Final Mark: Pending\n";
+            cout<<"Grade: Pending\n";
+        }else{
+            // cout<<"Final Exam: "<<final_exam<<"/60"<<endl;
+            // cout<<"Final Mark: "<<final_mark<<"/100"<<endl;
+            cout<<"Grade: "<<final_grade<<endl;
+        }
         cout<<"_______________________________________________\n";
     }
 

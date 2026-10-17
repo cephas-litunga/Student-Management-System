@@ -23,7 +23,7 @@ static inline int admin_menu(){
 
 static inline int home_menu(){
     int hm_option;
-    // system("cls");
+    system("cls");
     cout<<"============ Student Management System Login =================\n";
     cout<<"1. Login\n";
     cout<<"2. Exit\n";

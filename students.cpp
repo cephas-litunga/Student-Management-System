@@ -15,18 +15,7 @@ void view_details(int index){
 
 void view_grades(int index){
     system("cls");
-    cout<<"==================== My Grades ====================\n";
-    bool found = false;
-    for(int i = 0; i < result_count; i++){
-        if(results[i].studentID == students[index].studentID){
-            if(results[i].finalGrade != ""){
-                cout<<results[i].course_code<<" - "<<results[i].finalGrade<<endl;
-                found = true;
-            }
-        }
-    }
-
-    if(!found) cout<<"No grades available yet.\n";
+    view_student_results(students[index].studentID);
     system("pause");
 }
 
