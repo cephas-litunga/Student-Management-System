@@ -35,6 +35,9 @@ void view_student_results(int student_id);
 void delete_test_result(int student_id, const string& course_code);
 void view_all_results();
 
+bool get_results_published();
+bool set_results_published(bool published);
+
 vector<Student> get_students();
 vector<Lecturer> get_lecturers();
 vector<Course> get_courses();

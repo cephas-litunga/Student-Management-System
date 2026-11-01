@@ -2,6 +2,41 @@
 
 All notable changes to the Student Information System are documented here.
 
+## [v1.1.0] — Result Publication Controls
+
+### Added
+
+- Persistent result publication flag stored in SQLite (`system_settings` table).
+- Administrator control to publish and unpublish results.
+- Student result view now respects publication state.
+- `get_result_status()` extended with a new `3` status meaning "results complete but unpublished".
+- `get_results_published()` and `set_results_published()` database helpers.
+
+### Changed
+
+- Admin menu extended from 5 to 6 options (Publish / Unpublish Results added as option 5; Logout renumbered to 6).
+- Student view distinguishes between:
+  - "Results are not yet available" (status `0` — nothing entered).
+  - "Results are still being processed for some courses" (status `1` — partial completion).
+  - "Results have been entered but are not yet published by the administrator" (status `3` — complete but withheld).
+  - Normal results listing (status `2` — complete and published).
+
+### Behaviour
+
+- On first run against an existing database, the `system_settings` table is created and seeded with `results_published = '0'` (unpublished), which is the safe default. Existing `sms.db` files are migrated in place — no data loss.
+- Completion checking takes priority over publication state: a student whose registered courses are not all complete still sees the "processing" message, regardless of publication.
+- Publication state persists across application restarts because it is stored in SQLite, not in memory.
+
+### Testing
+
+- Verified publication gating for a fully complete student (Alice, 260001) across all states.
+- Verified persistence across application restart.
+- Verified partial-completion priority over publication state (Brian, 260002).
+
+### Known Limitations
+
+- Lecturer passwords cannot currently be reset by an administrator. Only the lecturer themselves can change their password after logging in. This is a pre-existing gap, not introduced in this release, and is deferred to a future version.
+
 ---
 
 ## [v1.0.0] — Continuous Assessment & Results Management

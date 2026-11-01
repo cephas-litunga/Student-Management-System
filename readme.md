@@ -6,7 +6,7 @@ The project is being developed incrementally, with each version introducing new 
 
 ## Current Version
 
-**v1.0.0 — Continuous Assessment & Results Management**
+**v1.1.0 — Result Publication Controls**
 
 ## Features
 
@@ -123,6 +123,26 @@ The implemented assessment structure uses:
 - Final examination out of 100
 - Final examination contributing 60% of the final grade
 
+### Result Publication Controls
+
+Administrators can control whether final results are visible to students.
+
+- Results can be published or unpublished at any time.
+- The publication state persists across application restarts.
+- Students see a clear message when their results exist but have not yet been published.
+- Publication only affects fully completed results. Students whose registered courses are still being processed see the processing message regardless of publication state.
+
+### Academic Reports
+
+Administrators can generate a Course Performance Report showing, for each course:
+
+- Number of completed results
+- Number of passes (final mark 50 or above)
+- Number of failures
+- Pass rate
+
+Incomplete results are excluded from the report. Courses with no completed results show `N/A` for the pass rate.
+
 ### Validation
 
 Input validation is implemented across the major modules, including:
@@ -138,21 +158,40 @@ Validation helpers are centralized in `validation.h`.
 
 ## Data Storage
 
-The system currently uses file-based persistence.
+The system uses SQLite for persistent storage.
 
-Data is stored in:
+The database file is `sms.db` and contains the following tables:
 
-- `students.txt`
-- `courses.txt`
-- `lecturers.txt`
-- `registrations.txt`
-- `results.txt`
+- `students`
+- `lecturers`
+- `courses`
+- `registrations`
+- `results`
+- `system_settings`
+
+The `system_settings` table stores application-level flags such as the result publication state.
+
+## Result Visibility Rules
+
+Students can only view their final results when **both** of the following are true:
+
+1. All registered courses have completed results (CA and final examination entered).
+2. An administrator has published results.
+
+A student may see one of the following messages instead of results:
+
+| Situation | Message shown |
+|---|---|
+| No results entered yet | Results are not yet available. |
+| Some registered courses incomplete | Results are still being processed for some courses. |
+| All complete, but unpublished | Results have been entered but are not yet published by the administrator. |
 
 ## Technologies
 
 - C++
 - Object-Oriented Programming
-- File Handling
+- SQLite (via the SQLite C API)
+- File-based and database-backed persistence
 - Git
 - GitHub
 
@@ -163,6 +202,10 @@ The project is developed incrementally through versioned releases.
 Each version is tested before moving on to the next stage.
 
 The long-term goal is to use this project as a foundation for developing a more complete Student Information System, including a future web-based version.
+
+## Known Limitations
+
+- Lecturer passwords cannot currently be reset by an administrator. Only the lecturer themselves can change their password after logging in. This is a pre-existing gap planned for a future release.
 
 ## Author
 

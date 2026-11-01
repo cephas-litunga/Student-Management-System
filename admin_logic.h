@@ -5,5 +5,6 @@ void student_management();
 void lecturer_management();
 void course_management();
 void lecturer_assignment();
-
+void academic_reports();
+void toggle_results_publishing();
 #endif

@@ -15,9 +15,11 @@ static inline int admin_menu(){
     cout<<"1. Student Management\n";
     cout<<"2. Lecturer Management\n";
     cout<<"3. Course Management\n";
-    cout<<"4. Logout\n";
+    cout<<"4. Academic Reports\n";
+    cout<<"5. Publish Results\n";
+    cout<<"6. Logout\n";
     cout<<"Enter option: ";
-    acm_option = validateInput(1,4);
+    acm_option = validateInput(1,6);
     return acm_option;
 }
 
@@ -99,9 +101,7 @@ static inline int student_management_menu(){
     cout<<"1. Add Student\n";
     cout<<"2. Search Student\n";
     cout<<"3. View all students\n";
-    // cout<<"4. Edit Student Grades\n";
     cout<<"4. Edit Student Details\n";
-    // cout<<"6. View Student Grades\n";
     cout<<"5. Delete Student\n";
     cout<<"6. Back\n";
     cout<<"Enter option: ";
@@ -156,7 +156,7 @@ static inline int course_options_menu(){
     int co_option;
     system("cls");
     cout<<"============ Course Options =================\n";
-    cout<<"1. Toggle Assignements\n";
+    cout<<"1. Toggle Assignments\n";
     cout<<"2. Enter CA Marks\n";
     cout<<"3. Enter Final Exam Marks\n";
     cout<<"4. Back\n";

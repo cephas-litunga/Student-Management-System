@@ -12,7 +12,9 @@ void login(){
                     case 1: student_management(); break;
                     case 2: lecturer_management(); break;
                     case 3: course_management(); break;
-                    case 4:
+                    case 4: academic_reports(); break;
+                    case 5: toggle_results_publishing(); break;
+                    case 6:
                         cout<<"Logging out...\n";
                         system("pause");
                         return;

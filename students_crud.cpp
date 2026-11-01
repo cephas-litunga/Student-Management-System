@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "database.h"
 
+
 void add_student(){
     system("cls");
 
@@ -29,7 +30,6 @@ void add_student(){
         return;
     }
 
-    next_student_id++;
     student_count++;
 
     cout<<"Student added successfully!\n";

@@ -210,57 +210,7 @@ void drop_course(int student_index){
 
     
 
-    system("pause");}
-
-void save_registrations(){
-    ofstream outFile("registrations.txt");
-
-    if(!outFile.is_open()){
-        cout<<"Error saving registrations!\n";
-        return;
-    }
-
-    for(int i = 0; i < registration_count; i++)
-        outFile<<registrations[i].studentID<<"|"
-               <<registrations[i].course_code<<"\n";
-}
-
-void load_registrations(){
-    ifstream inFile("registrations.txt");
-
-    if(!inFile.is_open())
-        return;
-
-    registration_count = 0;
-
-    string line;
-
-    while(getline(inFile, line) &&
-          registration_count < MAX_REGISTRATIONS){
-
-        if(line.empty()) continue;
-        if(line.back() == '\r') line.pop_back();
-
-        size_t pos = line.find('|');
-
-        if(pos == string::npos)
-            continue;
-
-        try{
-            registrations[registration_count].studentID =
-                stoi(line.substr(0, pos));
-            registrations[registration_count].course_code =
-                line.substr(pos + 1);
-
-            if(registrations[registration_count].course_code.empty())
-                continue;
-
-            registration_count++;
-        }
-        catch(...){
-            continue;
-        }
-    }
+    system("pause");
 }
 
 

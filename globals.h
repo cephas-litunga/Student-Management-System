@@ -6,6 +6,8 @@
 #include <limits>
 #include <string>
 #include <cctype>
+#include <iomanip>
+#include <string>
 #include "auth.h"
 #include "menus.h"
 #include "validation.h"

@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "database.h"
 
+
 int next_lecturer_id = 1000;
 
 void register_lecturer(){
@@ -33,7 +34,6 @@ void register_lecturer(){
         return;
     }
 
-    next_lecturer_id++;
     lecturer_count++;
 
     cout<<"Lecturer registered successfully!\n";
@@ -41,6 +41,7 @@ void register_lecturer(){
 
     system("pause");
 }
+
 
 void search_lecturer(){
     system("cls");
@@ -225,7 +226,7 @@ void load_lecturers_from_database(){
     vector<Lecturer> database_lecturers = get_lecturers();
 
     lecturer_count = 0;
-    next_lecturer_id = 1;
+    next_lecturer_id = 1001;
 
     for(const Lecturer& lecturer : database_lecturers){
         if(lecturer_count >= MAX_LECTURERS)

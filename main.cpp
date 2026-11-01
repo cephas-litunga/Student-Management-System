@@ -8,6 +8,8 @@
 // Show all registered courses CA, if not yet applicable then display 0
 using namespace std;
 
+// once results are entered, they cant be changed
+// a lecturer should have the option to view students registerd for their courses
 
 
 

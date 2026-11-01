@@ -106,19 +106,26 @@ The project is developed incrementally, with each version building upon the prev
 - Bug fixes
 - Regression testing
 
+### v1.1.0 — Result Publication Controls
+
+- Persistent publication flag stored in SQLite (`system_settings`)
+- Administrator publish / unpublish control
+- Student result view respects publication state
+- Distinct student-facing messages for unpublished vs incomplete results
+- Publication state persists across restarts
+- Backwards-compatible migration of existing `sms.db` files
+
 ---
 
 ## Future Development
 
-### v1.1.0 — Academic Management Improvements
+### v1.2.0 — Administrative and Account Management Improvements
 
 Potential areas:
 
-- More detailed student result breakdown
-- Improved result management
-- Academic reports
-- Administrative result oversight
-- Result publication controls
+- Administrator password reset for lecturers and students
+- Improved academic reporting
+- Additional security and account recovery options
 
 ### Future Versions
 

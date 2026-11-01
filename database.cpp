@@ -153,6 +153,35 @@ bool initialize_database(){
     }
 
     cout<<"Results table ready.\n";
+    
+    const char* settingsSQL = R"(
+        CREATE TABLE IF NOT EXISTS system_settings(
+                setting_key TEXT PRIMARY KEY,
+                setting_value TEXT NOT NULL
+        );    
+    )";
+
+    result_code = sqlite3_exec(db, settingsSQL, nullptr, nullptr, &error_message);
+    if(result_code != SQLITE_OK){
+        cerr<<"Failed to create system_settings table: "<<error_message<<endl;
+        sqlite3_free(error_message);
+        return false;
+    }
+
+    const char* seedSQL = R"(
+        INSERT OR IGNORE INTO system_settings (setting_key, setting_value)
+        VALUES ('results_published', '0');
+    )";
+
+    result_code = sqlite3_exec(db, seedSQL, nullptr, nullptr, &error_message);
+
+    if(result_code != SQLITE_OK){
+        cerr<<"Failed to seed system_settings table: "<<error_message<<endl;
+        sqlite3_free(error_message);
+        return false;
+    }
+
+    cout<<"System settings table ready.\n";
 
     return true;
 }
@@ -1161,6 +1190,40 @@ bool update_lecturer_password(int lecturer_id, const string& new_password){
 }
 
 int get_result_status(int student_id){
+    // Read publication state FIRST so a DB error here is distinguishable
+    // from a legitimately-unpublished state in the completion query below.
+    const char* pubSQL =
+        "SELECT setting_value FROM system_settings "
+        "WHERE setting_key = 'results_published';";
+
+    sqlite3_stmt* pubStmt = nullptr;
+
+    int rc = sqlite3_prepare_v2(db, pubSQL, -1, &pubStmt, nullptr);
+    if(rc != SQLITE_OK){
+        cerr << "Failed to prepare publication check.\n";
+        cerr << "SQLite error: " << sqlite3_errmsg(db) << '\n';
+        return -1;
+    }
+
+    rc = sqlite3_step(pubStmt);
+
+    if(rc != SQLITE_ROW){
+        cerr << "Failed to read publication status.\n";
+        cerr << "SQLite error: " << sqlite3_errmsg(db) << '\n';
+        sqlite3_finalize(pubStmt);
+        return -1;
+    }
+
+    const unsigned char* pubValue =
+        sqlite3_column_text(pubStmt, 0);
+
+    bool results_published =
+        (pubValue != nullptr) &&
+        (string(reinterpret_cast<const char*>(pubValue)) == "1");
+
+    sqlite3_finalize(pubStmt);
+
+    // Existing completion query — unchanged.
     const char* sql = R"(
         SELECT
             COUNT(registrations.course_code),
@@ -1182,11 +1245,9 @@ int get_result_status(int student_id){
 
     sqlite3_stmt* statement = nullptr;
 
-    int result_code = sqlite3_prepare_v2(
-        db, sql, -1, &statement, nullptr
-    );
+    rc = sqlite3_prepare_v2(db, sql, -1, &statement, nullptr);
 
-    if(result_code != SQLITE_OK){
+    if(rc != SQLITE_OK){
         cerr << "Failed to prepare result status query.\n";
         cerr << "SQLite error: " << sqlite3_errmsg(db) << '\n';
         return -1;
@@ -1194,9 +1255,9 @@ int get_result_status(int student_id){
 
     sqlite3_bind_int(statement, 1, student_id);
 
-    result_code = sqlite3_step(statement);
+    rc = sqlite3_step(statement);
 
-    if(result_code != SQLITE_ROW){
+    if(rc != SQLITE_ROW){
         cerr << "Failed to check result status.\n";
         cerr << "SQLite error: " << sqlite3_errmsg(db) << '\n';
         sqlite3_finalize(statement);
@@ -1204,7 +1265,7 @@ int get_result_status(int student_id){
     }
 
     int registration_count = sqlite3_column_int(statement, 0);
-    int completed_results = sqlite3_column_int(statement, 1);
+    int completed_results  = sqlite3_column_int(statement, 1);
 
     sqlite3_finalize(statement);
 
@@ -1217,7 +1278,7 @@ int get_result_status(int student_id){
     }
 
     if(completed_results == registration_count){
-        return 2;
+        return results_published ? 2 : 3;
     }
 
     cerr << "Invalid result counts for student "
@@ -1226,7 +1287,7 @@ int get_result_status(int student_id){
 }
 
 void view_student_results(int student_id){
-    int status = get_result_status(student_id);
+        int status = get_result_status(student_id);
 
     if(status == -1){
         cout<<"Unable to check result availability. Please try again later.\n";
@@ -1238,6 +1299,11 @@ void view_student_results(int student_id){
     }
     if(status == 1){
         cout<<"Results are still being processed for some courses.\n";
+        return;
+    }
+    if(status == 3){
+        cout<<"Results have been entered but are not yet "
+              "published by the administrator.\n";
         return;
     }
 
@@ -1406,6 +1472,69 @@ void view_all_results()
     }
 
     sqlite3_finalize(statement);
+}
+
+bool get_results_published(){
+    const char* sql = "SELECT setting_value FROM system_settings WHERE setting_key = 'results_published';";
+
+    sqlite3_stmt* statement = nullptr;
+
+    int rc = sqlite3_prepare_v2(db, sql, -1, &statement, nullptr);
+
+    if(rc != SQLITE_OK){
+        cerr << "Failed to prepare results published query: "
+             << sqlite3_errmsg(db) << '\n';
+        return false;
+    }
+
+    rc = sqlite3_step(statement);
+
+    if(rc != SQLITE_ROW){
+        cerr << "Failed to read results published setting: "
+             << sqlite3_errmsg(db) << '\n';
+        sqlite3_finalize(statement);
+        return false;
+    }
+
+    const unsigned char* value = sqlite3_column_text(statement, 0);
+
+    bool published = (value != nullptr && std::string(reinterpret_cast<const char*>(value)) == "1");
+
+    sqlite3_finalize(statement);
+    return published;
+
+}
+
+bool set_results_published(bool published){
+    const char* sql =
+        "UPDATE system_settings "
+        "SET setting_value = ? "
+        "WHERE setting_key = 'results_published';";
+
+    sqlite3_stmt* statement = nullptr;
+
+    int rc = sqlite3_prepare_v2(db, sql, -1, &statement, nullptr);
+    if(rc != SQLITE_OK){
+        cerr << "Failed to prepare publication update: "
+             << sqlite3_errmsg(db) << '\n';
+        return false;
+    }
+
+    const char* value = published ? "1" : "0";
+
+    sqlite3_bind_text(statement, 1, value, -1, SQLITE_TRANSIENT);
+
+    rc = sqlite3_step(statement);
+
+    bool success = (rc == SQLITE_DONE && sqlite3_changes(db) == 1);
+
+    if(!success){
+        cerr << "Failed to update publication status: "
+             << sqlite3_errmsg(db) << '\n';
+    }
+
+    sqlite3_finalize(statement);
+    return success;
 }
 
 vector<Student> get_students(){
