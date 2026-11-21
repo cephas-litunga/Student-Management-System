@@ -17,9 +17,11 @@ static inline int admin_menu(){
     cout<<"3. Course Management\n";
     cout<<"4. Academic Reports\n";
     cout<<"5. Publish Results\n";
-    cout<<"6. Logout\n";
+    cout<<"6. Reset Student Password\n";
+    cout<<"7. Reset Lecturer Password\n";
+    cout<<"8. Logout\n";
     cout<<"Enter option: ";
-    acm_option = validateInput(1,6);
+    acm_option = validateInput(1,8);
     return acm_option;
 }
 

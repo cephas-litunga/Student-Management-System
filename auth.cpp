@@ -14,7 +14,9 @@ void login(){
                     case 3: course_management(); break;
                     case 4: academic_reports(); break;
                     case 5: toggle_results_publishing(); break;
-                    case 6:
+                    case 6: reset_student_password(); break;
+                    case 7: reset_lecturer_password(); break;
+                    case 8:
                         cout<<"Logging out...\n";
                         system("pause");
                         return;

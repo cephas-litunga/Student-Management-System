@@ -7,4 +7,6 @@ void course_management();
 void lecturer_assignment();
 void academic_reports();
 void toggle_results_publishing();
+void reset_student_password();
+void reset_lecturer_password();
 #endif

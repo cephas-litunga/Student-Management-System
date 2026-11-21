@@ -6,12 +6,13 @@ The project is being developed incrementally, with each version introducing new 
 
 ## Current Version
 
-**v1.1.0 — Result Publication Controls**
+**v1.2.0 — Administrative Password Reset**
 
 ## Features
 
 ### Authentication
 
+- Administrator-initiated password reset for students and lecturers
 - Administrator login
 - Student login
 - Lecturer login
@@ -205,7 +206,7 @@ The long-term goal is to use this project as a foundation for developing a more 
 
 ## Known Limitations
 
-- Lecturer passwords cannot currently be reset by an administrator. Only the lecturer themselves can change their password after logging in. This is a pre-existing gap planned for a future release.
+- Passwords are currently stored in plain text. Password hashing is planned for a future release.
 
 ## Author
 

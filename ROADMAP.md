@@ -115,17 +115,27 @@ The project is developed incrementally, with each version building upon the prev
 - Publication state persists across restarts
 - Backwards-compatible migration of existing `sms.db` files
 
+### v1.2.0 — Administrative Password Reset
+
+- Admin-initiated password reset for students
+- Admin-initiated password reset for lecturers
+- Confirmation prompt before reset
+- In-memory record sync after DB write
+- Reuse of existing password-update DB helpers
+- Regression-verified existing password change paths
+
 ---
 
 ## Future Development
 
-### v1.2.0 — Administrative and Account Management Improvements
+### v1.3.0 — Password Security
 
 Potential areas:
 
-- Administrator password reset for lecturers and students
-- Improved academic reporting
-- Additional security and account recovery options
+- Password hashing (currently stored in plain text)
+- Forced password change on first login after admin reset
+- Password strength requirements
+- Account recovery
 
 ### Future Versions
 

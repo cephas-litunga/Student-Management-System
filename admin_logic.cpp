@@ -224,3 +224,130 @@ void toggle_results_publishing(){
 
     system("pause");
 }
+
+void reset_student_password(){
+    system("cls");
+
+    cout << "========== Reset Student Password ==========\n";
+
+    int student_id;
+    cout << "Enter Student ID: ";
+
+    if(!(cin >> student_id)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid student ID.\n";
+        system("pause");
+        return;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    // Find the student in memory. We look them up here rather than
+    // relying on the DB to report "0 rows changed", because we want
+    // to show the admin the student's name and get confirmation
+    // BEFORE writing anything.
+    int student_index = -1;
+    for(int i = 0; i < student_count; i++){
+        if(students[i].studentID == student_id){
+            student_index = i;
+            break;
+        }
+    }
+
+    if(student_index == -1){
+        cout << "Student " << student_id << " not found.\n";
+        system("pause");
+        return;
+    }
+
+    cout << "Student: " << students[student_index].name
+         << " (ID " << student_id << ")\n";
+    cout << "1. Confirm reset\n";
+    cout << "2. Cancel\n";
+    cout << "Enter option: ";
+
+    if(validateInput(1, 2) == 2){
+        cout << "Password reset cancelled.\n";
+        system("pause");
+        return;
+    }
+
+    string new_password =
+        validatePassword("Enter new password for this student: ");
+
+    if(!update_student_password(student_id, new_password)){
+        cout << "Failed to update student password in database.\n";
+        system("pause");
+        return;
+    }
+
+    // Keep the in-memory record consistent with the DB.
+    students[student_index].password = new_password;
+
+    cout << "Password reset successfully for "
+         << students[student_index].name << ".\n";
+    cout << "The student must use the new password at next login.\n";
+
+    system("pause");
+}
+
+void reset_lecturer_password(){
+    system("cls");
+
+    cout << "========== Reset Lecturer Password ==========\n";
+
+    int lecturer_id;
+    cout << "Enter Lecturer ID: ";
+
+    if(!(cin >> lecturer_id)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid lecturer ID.\n";
+        system("pause");
+        return;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    int lecturer_index = -1;
+    for(int i = 0; i < lecturer_count; i++){
+        if(lecturer[i].lecturerID == lecturer_id){
+            lecturer_index = i;
+            break;
+        }
+    }
+
+    if(lecturer_index == -1){
+        cout << "Lecturer " << lecturer_id << " not found.\n";
+        system("pause");
+        return;
+    }
+
+    cout << "Lecturer: " << lecturer[lecturer_index].name
+         << " (ID " << lecturer_id << ")\n";
+    cout << "1. Confirm reset\n";
+    cout << "2. Cancel\n";
+    cout << "Enter option: ";
+
+    if(validateInput(1, 2) == 2){
+        cout << "Password reset cancelled.\n";
+        system("pause");
+        return;
+    }
+
+    string new_password =
+        validatePassword("Enter new password for this lecturer: ");
+
+    if(!update_lecturer_password(lecturer_id, new_password)){
+        cout << "Failed to update lecturer password in database.\n";
+        system("pause");
+        return;
+    }
+
+    lecturer[lecturer_index].password = new_password;
+
+    cout << "Password reset successfully for "
+         << lecturer[lecturer_index].name << ".\n";
+    cout << "The lecturer must use the new password at next login.\n";
+
+    system("pause");
+}

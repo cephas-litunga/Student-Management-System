@@ -2,6 +2,38 @@
 
 All notable changes to the Student Information System are documented here.
 
+## [v1.2.0] — Administrative Password Reset
+
+### Added
+
+- Admin menu action to reset a student's password.
+- Admin menu action to reset a lecturer's password.
+- Confirmation prompt before applying a password reset.
+- In-memory synchronisation so the new password is immediately usable within the same running session.
+
+### Changed
+
+- Admin menu extended from 6 to 8 options (Logout renumbered to 8).
+- Admin menu now groups account-management actions (`Reset Student Password`, `Reset Lecturer Password`) alongside the existing feature areas.
+
+### Architecture
+
+- Reused existing `update_student_password` and `update_lecturer_password` database helpers rather than adding new SQL. This keeps password-writing logic in one place for any future change (e.g. password hashing).
+- Deliberately avoided a single `reset_user_password("students" | "lecturers", ...)` helper. Parameterising table names requires SQL string concatenation, which undermines the prepared-statement safety pattern used throughout the codebase.
+
+### Testing
+
+- Verified admin reset for a student (260005) and a lecturer (1003), including persistence.
+- Verified the old password stops working and the new one succeeds.
+- Verified in-memory sync by resetting and re-logging-in within a single running session.
+- Verified the cancel path leaves the database untouched.
+- Verified clean handling of non-existent IDs.
+- Verified that the existing user-initiated password change flows for both students and lecturers still work (regression check after touching `auth.cpp`).
+- Verified that resetting a password to its current value succeeds (SQLite reports a change even for identical values on this version).
+
+---
+
+
 ## [v1.1.0] — Result Publication Controls
 
 ### Added
